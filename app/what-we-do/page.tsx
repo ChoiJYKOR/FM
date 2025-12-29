@@ -268,46 +268,47 @@ export default function WhatWeDoPage() {
                               if (!image) return null;
                               const imageSections = getImageSections(image);
                               const isCode = isCodeBlock(image);
+                              const imageUrl = !isCode ? getImageUrl(image) : '';
+                              const hasImage = isCode || (typeof imageUrl === 'string' && imageUrl.trim() !== '');
                               return (
                                 <div
                                   key={imgIndex}
-                                  className={`flex flex-col ${imageSections ? "lg:flex-row" : ""} gap-8 lg:gap-12`}
+                                  className={`flex flex-col ${imageSections && hasImage ? "lg:flex-row" : ""} gap-8 lg:gap-12`}
                                 >
                             {/* Image or Code - Left Side */}
-                            <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
-                              {isCode ? (
-                                // Code Block
-                                <div className="rounded-lg overflow-hidden">
-                                  <SyntaxHighlighter
-                                    language={image.language}
-                                    style={vscDarkPlus}
-                                    customStyle={{
-                                      margin: 0,
-                                      borderRadius: '0.5rem',
-                                      fontSize: '0.75rem',
-                                      lineHeight: '1.5',
-                                      padding: '1rem',
-                                      maxHeight: '900px',
-                                      overflowY: 'auto',
-                                    }}
-                                    showLineNumbers={true}
-                                    wrapLines={true}
-                                    wrapLongLines={true}
-                                    codeTagProps={{
-                                      style: {
-                                        fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-                                      }
-                                    }}
-                                  >
-                                    {image.code}
-                                  </SyntaxHighlighter>
-                                </div>
-                              ) : (
-                                // Image
-                                <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity">
-                                  {(() => {
-                                    const imageUrl = getImageUrl(image);
-                                    return failedImages.has(imageUrl) ? (
+                            {hasImage && (
+                              <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
+                                {isCode ? (
+                                  // Code Block
+                                  <div className="rounded-lg overflow-hidden">
+                                    <SyntaxHighlighter
+                                      language={image.language}
+                                      style={vscDarkPlus}
+                                      customStyle={{
+                                        margin: 0,
+                                        borderRadius: '0.5rem',
+                                        fontSize: '0.75rem',
+                                        lineHeight: '1.5',
+                                        padding: '1rem',
+                                        maxHeight: '900px',
+                                        overflowY: 'auto',
+                                      }}
+                                      showLineNumbers={true}
+                                      wrapLines={true}
+                                      wrapLongLines={true}
+                                      codeTagProps={{
+                                        style: {
+                                          fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
+                                        }
+                                      }}
+                                    >
+                                      {image.code}
+                                    </SyntaxHighlighter>
+                                  </div>
+                                ) : (
+                                  // Image
+                                  <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity">
+                                    {failedImages.has(imageUrl) ? (
                                       <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
                                         이미지 준비중
                                       </div>
@@ -321,15 +322,15 @@ export default function WhatWeDoPage() {
                                           setFailedImages((prev) => new Set(prev).add(imageUrl));
                                         }}
                                       />
-                                    );
-                                  })()}
-                                </div>
-                              )}
-                            </div>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            )}
 
                             {/* Sections - Right Side */}
                             {imageSections && imageSections.length > 0 && (
-                              <div className="w-full lg:w-1/2 flex-shrink-0 space-y-8">
+                              <div className={`w-full ${hasImage ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
                                 {imageSections.map((section, sectionIdx) => (
                                   <div key={sectionIdx}>
                                     {section.title && (
@@ -389,120 +390,123 @@ export default function WhatWeDoPage() {
                               
                               const imageSections = getImageSections(currentImage);
                               const isCode = isCodeBlock(currentImage);
+                              const imageUrls = !isCode ? getImageUrls(currentImage) : [];
+                              const hasImage = isCode || (imageUrls.length > 0 && typeof imageUrls[0] === 'string' && imageUrls[0].trim() !== '');
                               
                               return (
-                                <div className={`flex flex-col ${imageSections ? "lg:flex-row" : ""} gap-8 lg:gap-12`}>
+                                <div className={`flex flex-col ${imageSections && hasImage ? "lg:flex-row" : ""} gap-8 lg:gap-12`}>
                                   {/* Image or Code - Left Side */}
-                                  <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
-                                    {isCode ? (
-                                      // Code Block
-                                      <div className="rounded-lg overflow-hidden">
-                                        <SyntaxHighlighter
-                                          language={currentImage.language}
-                                          style={vscDarkPlus}
-                                          customStyle={{
-                                            margin: 0,
-                                            borderRadius: '0.5rem',
-                                            fontSize: '0.75rem',
-                                            lineHeight: '1.5',
-                                            padding: '1rem',
-                                            maxHeight: '500px',
-                                            overflowY: 'auto',
-                                          }}
-                                          showLineNumbers={true}
-                                          wrapLines={true}
-                                          wrapLongLines={true}
-                                          codeTagProps={{
-                                            style: {
-                                              fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-                                            }
-                                          }}
-                                        >
-                                          {currentImage.code}
-                                        </SyntaxHighlighter>
-                                      </div>
-                                    ) : (
-                                      // Image
-                                      (() => {
-                                        const imageUrls = getImageUrls(currentImage);
-                                        const currentImgIndex = getCurrentImageIndex(index, currentBlockIndex);
-                                        const hasMultipleImages = imageUrls.length > 1;
-                                        const currentImageUrl = imageUrls[currentImgIndex] || imageUrls[0] || '';
-                                        
-                                        return (
-                                          <div 
-                                            className="rounded-lg overflow-hidden bg-gray-200 relative"
-                                            style={{ cursor: laserPointerCursor }}
+                                  {hasImage && (
+                                    <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
+                                      {isCode ? (
+                                        // Code Block
+                                        <div className="rounded-lg overflow-hidden">
+                                          <SyntaxHighlighter
+                                            language={currentImage.language}
+                                            style={vscDarkPlus}
+                                            customStyle={{
+                                              margin: 0,
+                                              borderRadius: '0.5rem',
+                                              fontSize: '0.75rem',
+                                              lineHeight: '1.5',
+                                              padding: '1rem',
+                                              maxHeight: '500px',
+                                              overflowY: 'auto',
+                                            }}
+                                            showLineNumbers={true}
+                                            wrapLines={true}
+                                            wrapLongLines={true}
+                                            codeTagProps={{
+                                              style: {
+                                                fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
+                                              }
+                                            }}
                                           >
-                                            {failedImages.has(currentImageUrl) ? (
-                                              <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
-                                                이미지 준비중
-                                              </div>
-                                            ) : (
-                                              <>
-                                                <img
-                                                  src={currentImageUrl}
-                                                  alt={`${chapter.title} - 이미지 ${currentBlockIndex + 1}-${currentImgIndex + 1}`}
-                                                  className="w-full h-auto object-contain transition-opacity duration-300"
-                                                  onClick={() => setSelectedImage(currentImageUrl)}
-                                                  onError={() => {
-                                                    setFailedImages((prev) => new Set(prev).add(currentImageUrl));
-                                                  }}
-                                                  style={{ cursor: laserPointerCursor }}
-                                                />
-                                                
-                                                {/* 다중 이미지인 경우 좌우 버튼 및 인덱스 표시 */}
-                                                {hasMultipleImages && (
-                                                  <>
-                                                    {/* 좌측 버튼 */}
-                                                    {currentImgIndex > 0 && (
-                                                      <button
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          setCurrentImageIndex(index, currentBlockIndex, currentImgIndex - 1);
-                                                        }}
-                                                        className="absolute left-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
-                                                        aria-label="이전 이미지"
-                                                      >
-                                                        <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                                                        </svg>
-                                                      </button>
-                                                    )}
-                                                    
-                                                    {/* 우측 버튼 */}
-                                                    {currentImgIndex < imageUrls.length - 1 && (
-                                                      <button
-                                                        onClick={(e) => {
-                                                          e.stopPropagation();
-                                                          setCurrentImageIndex(index, currentBlockIndex, currentImgIndex + 1);
-                                                        }}
-                                                        className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
-                                                        aria-label="다음 이미지"
-                                                      >
-                                                        <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                                                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                                        </svg>
-                                                      </button>
-                                                    )}
-                                                    
-                                                    {/* 이미지 인덱스 표시 */}
-                                                    <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1.5 rounded-md text-sm font-medium z-10">
-                                                      {currentImgIndex + 1} / {imageUrls.length}
-                                                    </div>
-                                                  </>
-                                                )}
-                                              </>
-                                            )}
-                                          </div>
-                                        );
-                                      })()
-                                    )}
-                                  </div>
+                                            {currentImage.code}
+                                          </SyntaxHighlighter>
+                                        </div>
+                                      ) : (
+                                        // Image
+                                        (() => {
+                                          const currentImgIndex = getCurrentImageIndex(index, currentBlockIndex);
+                                          const hasMultipleImages = imageUrls.length > 1;
+                                          const currentImageUrl = imageUrls[currentImgIndex] || imageUrls[0] || '';
+                                          
+                                          return (
+                                            <div 
+                                              className="rounded-lg overflow-hidden bg-gray-200 relative"
+                                              style={{ cursor: laserPointerCursor }}
+                                            >
+                                              {failedImages.has(currentImageUrl) ? (
+                                                <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
+                                                  이미지 준비중
+                                                </div>
+                                              ) : (
+                                                <>
+                                                  <img
+                                                    src={currentImageUrl}
+                                                    alt={`${chapter.title} - 이미지 ${currentBlockIndex + 1}-${currentImgIndex + 1}`}
+                                                    className="w-full h-auto object-contain transition-opacity duration-300"
+                                                    onClick={() => setSelectedImage(currentImageUrl)}
+                                                    onError={() => {
+                                                      setFailedImages((prev) => new Set(prev).add(currentImageUrl));
+                                                    }}
+                                                    style={{ cursor: laserPointerCursor }}
+                                                  />
+                                                  
+                                                  {/* 다중 이미지인 경우 좌우 버튼 및 인덱스 표시 */}
+                                                  {hasMultipleImages && (
+                                                    <>
+                                                      {/* 좌측 버튼 */}
+                                                      {currentImgIndex > 0 && (
+                                                        <button
+                                                          onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setCurrentImageIndex(index, currentBlockIndex, currentImgIndex - 1);
+                                                          }}
+                                                          className="absolute left-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
+                                                          aria-label="이전 이미지"
+                                                        >
+                                                          <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                                          </svg>
+                                                        </button>
+                                                      )}
+                                                      
+                                                      {/* 우측 버튼 */}
+                                                      {currentImgIndex < imageUrls.length - 1 && (
+                                                        <button
+                                                          onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            setCurrentImageIndex(index, currentBlockIndex, currentImgIndex + 1);
+                                                          }}
+                                                          className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
+                                                          aria-label="다음 이미지"
+                                                        >
+                                                          <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                                          </svg>
+                                                        </button>
+                                                      )}
+                                                      
+                                                      {/* 이미지 인덱스 표시 */}
+                                                      <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1.5 rounded-md text-sm font-medium z-10">
+                                                        {currentImgIndex + 1} / {imageUrls.length}
+                                                      </div>
+                                                    </>
+                                                  )}
+                                                </>
+                                              )}
+                                            </div>
+                                          );
+                                        })()
+                                      )}
+                                    </div>
+                                  )}
 
                                   {/* Sections - Right Side */}
                                   {imageSections && imageSections.length > 0 && (
-                                    <div className="w-full lg:w-1/2 flex-shrink-0 space-y-8">
+                                    <div className={`w-full ${hasImage ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
                                       {imageSections.map((section, sectionIdx) => (
                                         <div key={sectionIdx}>
                                           {section.title && (

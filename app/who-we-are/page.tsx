@@ -8,7 +8,7 @@ const teamMembers = [
   {
     id: 1,
     name: "최주영",
-    role: "IoT팀",
+    role: "IoT팀/PM",
     description: "3D 모델링\nMQTT를 활용한 실시간 데이터 전송\nHMI1 제작\n대시보드 제작\n홈페이지 제작",
     image: "/images/team-member-1.png",
   },

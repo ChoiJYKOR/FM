@@ -18,7 +18,12 @@ export function getImageUrl(image: Exclude<ImageItem, { type: 'code'; language: 
     }
     return image.url || '';
   }
-  return image;
+  // 문자열인 경우 그대로 반환
+  if (typeof image === 'string') {
+    return image;
+  }
+  // 객체인데 url이나 urls가 없는 경우 빈 문자열 반환
+  return '';
 }
 
 // 이미지 URL 배열 추출 헬퍼 함수 (코드 블록 제외)
@@ -42,16 +47,18 @@ export function getImageSections(image: ImageItem): ImageSection[] | undefined {
     return image.sections;
   }
   
-  // 이미지 객체인 경우
-  if (isImageObject(image)) {
+  // 이미지 객체인 경우 (url이 있든 없든 sections만 있어도 처리)
+  if (typeof image === "object" && image !== null && !isCodeBlock(image)) {
+    const imageObj = image as { url?: string; urls?: string[]; description?: string | string[]; title?: string; sections?: ImageSection[] };
+    
     // sections가 있으면 그것을 사용
-    if (image.sections) return image.sections;
+    if (imageObj.sections) return imageObj.sections;
     
     // sections가 없고 title이나 description이 있으면 단일 섹션으로 변환
-    if (image.title || image.description) {
+    if (imageObj.title || imageObj.description) {
       return [{
-        title: image.title,
-        description: image.description || [],
+        title: imageObj.title,
+        description: imageObj.description || [],
       }];
     }
   }

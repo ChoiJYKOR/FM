@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM - Products | 신뢰도의 퓨즈</title>
+    <style>
+        :root {
+            --color-primary: #D3212F;
+            --color-dark: #1A1A1A;
+            --color-light: #F5F5F5;
+            --color-text: #333333;
+            --color-gray: #999999;
+            --color-border: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--color-text);
+            background: white;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 32px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--color-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F9F9F9 100%);
+            padding: 100px 40px;
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            color: var(--color-dark);
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--color-primary);
+            margin-bottom: 32px;
+            font-weight: 500;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            color: var(--color-gray);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            font-size: 28px;
+            min-width: 40px;
+        }
+
+        .feature-text h3 {
+            font-size: 14px;
+            color: var(--color-dark);
+            margin-bottom: 4px;
+        }
+
+        .feature-text p {
+            font-size: 13px;
+            color: var(--color-gray);
+        }
+
+        .hero-image {
+            background: linear-gradient(135deg, var(--color-primary) 0%, #8B0E1A 100%);
+            border-radius: 12px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+            }
+            .hero-image {
+                height: 300px;
+            }
+        }
+
+        /* Trust Section */
+        .trust-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 36px;
+            color: var(--color-dark);
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--color-gray);
+            font-size: 16px;
+            margin-bottom: 50px;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .trust-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 32px;
+            transition: all 0.3s;
+        }
+
+        .trust-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 30px rgba(211, 33, 47, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .trust-card-title {
+            font-size: 18px;
+            color: var(--color-primary);
+            margin-bottom: 24px;
+            font-weight: bold;
+        }
+
+        .trust-stat {
+            margin-bottom: 20px;
+        }
+
+        .trust-label {
+            font-size: 13px;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+        }
+
+        .trust-value {
+            font-size: 28px;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .trust-detail {
+            font-size: 12px;
+            color: var(--color-gray);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Production Section */
+        .production-section {
+            padding: 80px 40px;
+            background: #F9F9F9;
+        }
+
+        .process-timeline {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .process-stage {
+            background: white;
+            border-left: 4px solid var(--color-primary);
+            padding: 32px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .process-stage:hover {
+            box-shadow: 0 8px 20px rgba(211, 33, 47, 0.1);
+            transform: translateX(8px);
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .stage-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .stage-info h3 {
+            font-size: 18px;
+            color: var(--color-dark);
+            margin-bottom: 4px;
+        }
+
+        .stage-subtitle {
+            font-size: 13px;
+            color: var(--color-gray);
+        }
+
+        .stage-content {
+            margin-top: 16px;
+            padding-left: 64px;
+        }
+
+        .stage-content h4 {
+            font-size: 14px;
+            color: var(--color-dark);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .stage-content ul {
+            list-style: none;
+            margin-bottom: 12px;
+        }
+
+        .stage-content li {
+            font-size: 13px;
+            color: var(--color-gray);
+            margin-bottom: 8px;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .stage-content li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        .stage-metrics {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--color-light);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--color-text);
+        }
+
+        /* QC Section */
+        .qc-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .qc-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .qc-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .qc-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 25px rgba(211, 33, 47, 0.1);
+        }
+
+        .qc-header {
+            background: var(--color-light);
+            padding: 16px;
+            border-radius: 6px;
+            margin-bottom: 16px;
+        }
+
+        .qc-header h3 {
+            font-size: 16px;
+            color: var(--color-primary);
+            margin-bottom: 4px;
+        }
+
+        .qc-subtitle {
+            font-size: 12px;
+            color: var(--color-gray);
+        }
+
+        .qc-content h4 {
+            font-size: 13px;
+            color: var(--color-dark);
+            margin-top: 12px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .qc-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .qc-content li {
+            font-size: 12px;
+            color: var(--color-gray);
+            margin-bottom: 6px;
+            padding-left: 14px;
+            position: relative;
+        }
+
+        .qc-content li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+        }
+
+        .qc-content p {
+            font-size: 12px;
+            color: var(--color-gray);
+            margin-top: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .qc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Product Lineup */
+        .lineup-section {
+            padding: 80px 40px;
+            background: #F9F9F9;
+        }
+
+        .lineup-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .product-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .product-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 12px 35px rgba(211, 33, 47, 0.12);
+            transform: translateY(-8px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(135deg, var(--color-primary) 0%, #8B0E1A 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 48px;
+        }
+
+        .product-info {
+            padding: 24px;
+        }
+
+        .product-name {
+            font-size: 18px;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+
+        .spec-table {
+            font-size: 12px;
+            margin-bottom: 16px;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+        .spec-label {
+            color: var(--color-gray);
+        }
+
+        .spec-value {
+            color: var(--color-dark);
+            font-weight: bold;
+        }
+
+        .product-features {
+            border-top: 1px solid var(--color-border);
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .product-features h4 {
+            font-size: 12px;
+            color: var(--color-dark);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .product-features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .product-features li {
+            font-size: 11px;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+            padding-left: 12px;
+            position: relative;
+        }
+
+        .product-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        @media (max-width: 1024px) {
+            .lineup-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lineup-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Certifications */
+        .cert-section {
+            padding: 80px 40px;
+            background: white;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .cert-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 24px;
+            transition: all 0.3s;
+        }
+
+        .cert-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 10px 25px rgba(211, 33, 47, 0.1);
+        }
+
+        .cert-title {
+            font-size: 16px;
+            color: var(--color-primary);
+            margin-bottom: 16px;
+            font-weight: bold;
+        }
+
+        .cert-item {
+            background: var(--color-light);
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            border-left: 3px solid var(--color-primary);
+        }
+
+        .cert-name {
+            font-size: 13px;
+            font-weight: bold;
+            color: var(--color-dark);
+            margin-bottom: 4px;
+        }
+
+        .cert-desc {
+            font-size: 12px;
+            color: var(--color-gray);
+            margin-bottom: 4px;
+        }
+
+        .cert-status {
+            font-size: 12px;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .cert-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Testimonials */
+        .testimonial-section {
+            padding: 80px 40px;
+            background: #F9F9F9;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 32px;
+            border-radius: 8px;
+            border-left: 4px solid var(--color-primary);
+        }
+
+        .testimonial-quote {
+            font-size: 14px;
+            color: var(--color-text);
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .testimonial-source {
+            font-size: 12px;
+            color: var(--color-gray);
+            font-style: normal;
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background: var(--color-dark);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        footer .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: left;
+        }
+
+        footer h4 {
+            margin-bottom: 16px;
+            font-size: 14px;
+        }
+
+        footer p {
+            font-size: 12px;
+            color: #CCCCCC;
+            line-height: 1.8;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            footer .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">FM</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About FM</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>FM Fuses: 신뢰도의 표준</h1>
+                <p class="hero-subtitle">99.5% 신뢰도로 검증된 산업용 퓨즈</p>
+                <p class="hero-description">
+                    FM의 퓨즈는 엄격한 생산 공정과 다층 검사 시스템으로 만들어집니다. 
+                    최고의 안전성과 신뢰도를 약속합니다.
+                </p>
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">🛡️</div>
+                        <div class="feature-text">
+                            <h3>99.5% 신뢰도</h3>
+                            <p>10년 무고장 운영</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-text">
+                            <h3>빠른 응답</h3>
+                            <p>과전류 &lt; 1ms</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌍</div>
+                        <div class="feature-text">
+                            <h3>글로벌 표준</h3>
+                            <p>IEC, ISO 준수</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">♻️</div>
+                        <div class="feature-text">
+                            <h3>친환경</h3>
+                            <p>SF6-Free 100%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                🔌 FM 퓨즈
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="trust-section">
+        <div class="container">
+            <h2 class="section-title">글로벌 신뢰도</h2>
+            <p class="section-subtitle">7년 이상 글로벌 OEM과 함께하며 입증된 신뢰성</p>
+            
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <h3 class="trust-card-title">🏆 글로벌 OEM 신뢰</h3>
+                    <div class="trust-stat">
+                        <p class="trust-label">현대자동차</p>
+                        <p class="trust-value">2018년~</p>
+                        <p class="trust-detail">연간 수백만개 공급</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">기아자동차</p>
+                        <p class="trust-value">2018년~</p>
+                        <p class="trust-detail">연간 수백만개 공급</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">Genesis</p>
+                        <p class="trust-value">2021년~</p>
+                        <p class="trust-detail">프리미엄 라인업</p>
+                    </div>
+                </div>
+
+                <div class="trust-card">
+                    <h3 class="trust-card-title">📊 품질 성과</h3>
+                    <div class="trust-stat">
+                        <p class="trust-label">신뢰도</p>
+                        <p class="trust-value">99.5%</p>
+                        <p class="trust-detail">10년 무고장 검증</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">필드 불량</p>
+                        <p class="trust-value">&lt; 0.1%</p>
+                        <p class="trust-detail">100만개 기준</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">응답 시간</p>
+                        <p class="trust-value">0.8ms</p>
+                        <p class="trust-detail">평균 성능</p>
+                    </div>
+                </div>
+
+                <div class="trust-card">
+                    <h3 class="trust-card-title">🌐 국제 인증</h3>
+                    <div class="trust-stat">
+                        <p class="trust-label">IEC 60127-2</p>
+                        <p class="trust-value">✅</p>
+                        <p class="trust-detail">국제 표준 준수</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">AEC-Q200</p>
+                        <p class="trust-value">레벨 2</p>
+                        <p class="trust-detail">최고 신뢰성 등급</p>
+                    </div>
+                    <div class="trust-stat">
+                        <p class="trust-label">ISO 9001:2015</p>
+                        <p class="trust-value">✅</p>
+                        <p class="trust-detail">품질 시스템</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Production Section -->
+    <section class="production-section">
+        <div class="container">
+            <h2 class="section-title">생산 공정</h2>
+            <p class="section-subtitle">신뢰도를 보장하는 6단계 엄격한 공정</p>
+            
+            <div class="process-timeline">
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">1</div>
+                        <div class="stage-info">
+                            <h3>재료 선별</h3>
+                            <p class="stage-subtitle">Material Selection</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>🔬 검증 항목</h4>
+                        <ul>
+                            <li>화학 성분 분석 (99.99% 순도)</li>
+                            <li>기계적 성질 측정</li>
+                            <li>불순물 검사 (ICP-MS)</li>
+                            <li>공급업체 인증 검증</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>합격률:</strong> 99.8% 이상
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">2</div>
+                        <div class="stage-info">
+                            <h3>와이어 제조</h3>
+                            <p class="stage-subtitle">Wire Drawing & Heat Treatment</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>⚙️ 공정 제어</h4>
+                        <ul>
+                            <li>금속 합금 녹임 (±5°C 제어)</li>
+                            <li>연신 공정 (±0.1mm 정밀도)</li>
+                            <li>열처리 (강도 정확히 조정)</li>
+                            <li>표면 코팅 (부식 방지)</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>융점:</strong> ±2°C | <strong>직경:</strong> ±0.02mm
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">3</div>
+                        <div class="stage-info">
+                            <h3>구조 조립</h3>
+                            <p class="stage-subtitle">Assembly</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>🔧 자동 조립</h4>
+                        <ul>
+                            <li>와이어 중심 설치 (±0.05mm)</li>
+                            <li>글래스 재킷 적용</li>
+                            <li>금속 캡 압착</li>
+                            <li>밀봉 처리 (100% 가스 차단)</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>오류율:</strong> 0.1% 이하
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">4</div>
+                        <div class="stage-info">
+                            <h3>성능 테스트</h3>
+                            <p class="stage-subtitle">Performance Validation</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>⚡ 전기적 검사 (샘플)</h4>
+                        <ul>
+                            <li>정상 전류 통과 확인</li>
+                            <li>저항값 측정 (≤ 1mΩ)</li>
+                            <li>과전류 응답 시간 (&lt; 1ms)</li>
+                            <li>절연 내력 (≥ 1500V)</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>합격률:</strong> 99.7% 이상
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">5</div>
+                        <div class="stage-info">
+                            <h3>환경 시뮬레이션</h3>
+                            <p class="stage-subtitle">Environmental Testing</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>🌡️ 신뢰성 테스트</h4>
+                        <ul>
+                            <li>온도 순환 (-40°C ~ 125°C, 500회)</li>
+                            <li>습도 테스트 (95% RH, 1000시간)</li>
+                            <li>진동 테스트 (IEC 표준)</li>
+                            <li>염무료 테스트 (부식 저항성)</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>목표:</strong> 10년 무고장 운영 검증
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-stage">
+                    <div class="stage-header">
+                        <div class="stage-number">6</div>
+                        <div class="stage-info">
+                            <h3>최종 검사 & 포장</h3>
+                            <p class="stage-subtitle">Final Inspection & Packaging</p>
+                        </div>
+                    </div>
+                    <div class="stage-content">
+                        <h4>✅ 최종 체크</h4>
+                        <ul>
+                            <li>외관 검사 (자동 비전)</li>
+                            <li>트레이서빌리티 마킹</li>
+                            <li>포장 무결성 확인</li>
+                            <li>무작위 샘플 재검증</li>
+                        </ul>
+                        <div class="stage-metrics">
+                            <strong>손상률:</strong> 0.01% 이하
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- QC Section -->
+    <section class="qc-section">
+        <div class="container">
+            <h2 class="section-title">검사 & 품질관리</h2>
+            <p class="section-subtitle">6개 독립적 검사 단계로 99.5% 신뢰도 달성</p>
+            
+            <div class="qc-grid">
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>1️⃣ 외관 검사</h3>
+                        <p class="qc-subtitle">Visual Inspection</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>검사 항목</h4>
+                        <ul>
+                            <li>표면 결함</li>
+                            <li>색상 일관성</li>
+                            <li>마킹 선명도</li>
+                            <li>조립 정렬</li>
+                        </ul>
+                        <h4>방법</h4>
+                        <p>자동 비전 시스템</p>
+                        <h4>결과</h4>
+                        <p><strong>정확도:</strong> 99.2%</p>
+                        <p><strong>처리:</strong> 36,000개/시간</p>
+                    </div>
+                </div>
+
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>2️⃣ 저항값 측정</h3>
+                        <p class="qc-subtitle">Electrical Resistance</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>검사 항목</h4>
+                        <ul>
+                            <li>접촉 저항 (≤ 1mΩ)</li>
+                            <li>와이어 저항</li>
+                            <li>연결부 무결성</li>
+                            <li>정밀도 확인</li>
+                        </ul>
+                        <h4>방법</h4>
+                        <p>정밀 저항계 (4-점 측정)</p>
+                        <h4>기준</h4>
+                        <p><strong>합격:</strong> ≤ 1.0mΩ (10% 샘플)</p>
+                    </div>
+                </div>
+
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>3️⃣ 응답 시간</h3>
+                        <p class="qc-subtitle">Response Time</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>검사 항목</h4>
+                        <ul>
+                            <li>과전류 검출 속도</li>
+                            <li>융점 정확도</li>
+                            <li>응답 곡선</li>
+                            <li>회로 안정성</li>
+                        </ul>
+                        <h4>방법</h4>
+                        <p>고주파 신호 + 오실로스코프</p>
+                        <h4>기준</h4>
+                        <p><strong>목표:</strong> &lt; 1ms (1% 샘플)</p>
+                    </div>
+                </div>
+
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>4️⃣ 환경 테스트</h3>
+                        <p class="qc-subtitle">Environmental Testing</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>테스트 종류</h4>
+                        <ul>
+                            <li>온도 순환 (500회)</li>
+                            <li>습도 테스트 (1000시간)</li>
+                            <li>염무료 테스트</li>
+                            <li>진동 테스트</li>
+                        </ul>
+                        <h4>주기</h4>
+                        <p>월 1회, 배치당 50개 (5%)</p>
+                        <h4>기준</h4>
+                        <p><strong>합격:</strong> 100% (0 불량)</p>
+                    </div>
+                </div>
+
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>5️⃣ AI 보조 검사</h3>
+                        <p class="qc-subtitle">AI-Supported Check</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>역할</h4>
+                        <ul>
+                            <li>불량 패턴 학습</li>
+                            <li>신뢰도 상향</li>
+                            <li>숨겨진 결함 탐지</li>
+                            <li>원인 분석</li>
+                        </ul>
+                        <h4>특징</h4>
+                        <p>🔄 <strong>보조 역할</strong> (메인 아님)</p>
+                        <h4>개선</h4>
+                        <p><strong>신뢰도:</strong> 99.2% → 99.5%</p>
+                    </div>
+                </div>
+
+                <div class="qc-card">
+                    <div class="qc-header">
+                        <h3>6️⃣ 최종 검증</h3>
+                        <p class="qc-subtitle">Final Verification</p>
+                    </div>
+                    <div class="qc-content">
+                        <h4>검사 항목</h4>
+                        <ul>
+                            <li>무작위 샘플 재검</li>
+                            <li>트레이서빌리티</li>
+                            <li>포장 무결성</li>
+                            <li>출고 전 체크</li>
+                        </ul>
+                        <h4>방법</h4>
+                        <p>통계적 샘플링</p>
+                        <h4>기준</h4>
+                        <p><strong>합격:</strong> 30개 중 0건 불량</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Lineup -->
+    <section class="lineup-section">
+        <div class="container">
+            <h2 class="section-title">제품 라인업</h2>
+            <p class="section-subtitle">신뢰도 기반 FM 퓨즈 포트폴리오</p>
+            
+            <div class="lineup-grid">
+                <!-- 4-Pin -->
+                <div class="product-card">
+                    <div class="product-image">🔌</div>
+                    <div class="product-info">
+                        <h3 class="product-name">4-Pin Fuse Box</h3>
+                        <div class="spec-table">
+                            <div class="spec-row">
+                                <span class="spec-label">전압:</span>
+                                <span class="spec-value">32V DC</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">전류:</span>
+                                <span class="spec-value">0.5~30A</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">응답:</span>
+                                <span class="spec-value">&lt; 1ms</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">신뢰도:</span>
+                                <span class="spec-value">99.5%</span>
+                            </div>
+                        </div>
+                        <div class="product-features">
+                            <h4>✅ 특징</h4>
+                            <ul>
+                                <li>콤팩트 설계</li>
+                                <li>저온도 상승</li>
+                                <li>높은 정확도</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6-Pin -->
+                <div class="product-card">
+                    <div class="product-image">🔌</div>
+                    <div class="product-info">
+                        <h3 class="product-name">6-Pin Fuse Box</h3>
+                        <div class="spec-table">
+                            <div class="spec-row">
+                                <span class="spec-label">전압:</span>
+                                <span class="spec-value">48V DC</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">전류:</span>
+                                <span class="spec-value">1~50A</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">응답:</span>
+                                <span class="spec-value">&lt; 0.8ms</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">신뢰도:</span>
+                                <span class="spec-value">99.8%</span>
+                            </div>
+                        </div>
+                        <div class="product-features">
+                            <h4>✅ 특징</h4>
+                            <ul>
+                                <li>고압 대응</li>
+                                <li>대전류 처리</li>
+                                <li>최고 정확도</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Smart Fuse -->
+                <div class="product-card">
+                    <div class="product-image">⚡</div>
+                    <div class="product-info">
+                        <h3 class="product-name">Smart Fuse</h3>
+                        <div class="spec-table">
+                            <div class="spec-row">
+                                <span class="spec-label">전압:</span>
+                                <span class="spec-value">12~48V</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">통신:</span>
+                                <span class="spec-value">CAN/LIN</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">기능:</span>
+                                <span class="spec-value">모니터링</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">신뢰도:</span>
+                                <span class="spec-value">99.7%</span>
+                            </div>
+                        </div>
+                        <div class="product-features">
+                            <h4>✅ 특징</h4>
+                            <ul>
+                                <li>실시간 데이터</li>
+                                <li>원격 진단</li>
+                                <li>예측 기능</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ultra-Reliable -->
+                <div class="product-card">
+                    <div class="product-image">🏆</div>
+                    <div class="product-info">
+                        <h3 class="product-name">Ultra-Reliable</h3>
+                        <div class="spec-table">
+                            <div class="spec-row">
+                                <span class="spec-label">전압:</span>
+                                <span class="spec-value">32~48V</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">전류:</span>
+                                <span class="spec-value">0.5~100A</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">무고장:</span>
+                                <span class="spec-value">10년</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">인증:</span>
+                                <span class="spec-value">AEC-Q200</span>
+                            </div>
+                        </div>
+                        <div class="product-features">
+                            <h4>✅ 특징</h4>
+                            <ul>
+                                <li>극저 오류율</li>
+                                <li>최고 성능</li>
+                                <li>최장 수명</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="cert-section">
+        <div class="container">
+            <h2 class="section-title">안전성 인증</h2>
+            <p class="section-subtitle">국제 안전 표준 완벽 준수</p>
+            
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h3 class="cert-title">🌐 국제 표준</h3>
+                    <div class="cert-item">
+                        <p class="cert-name">IEC 60127-2</p>
+                        <p class="cert-desc">소형 퓨즈 표준</p>
+                        <p class="cert-status">✅ 완벽 준수</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">ISO 9001:2015</p>
+                        <p class="cert-desc">품질 관리</p>
+                        <p class="cert-status">✅ 인증 획득</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">AEC-Q200</p>
+                        <p class="cert-desc">자동차 신뢰성</p>
+                        <p class="cert-status">✅ 레벨 2</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">RoHS 2.0</p>
+                        <p class="cert-desc">유해 물질 제한</p>
+                        <p class="cert-status">✅ 완벽 준수</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <h3 class="cert-title">🔒 안전성 기준</h3>
+                    <div class="cert-item">
+                        <p class="cert-name">절연 내력</p>
+                        <p class="cert-desc">≥ 1500V (AC)</p>
+                        <p class="cert-status">✅ 초과 달성</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">과전류 응답</p>
+                        <p class="cert-desc">&lt; 1ms</p>
+                        <p class="cert-status">✅ 0.8ms 평균</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">온도 범위</p>
+                        <p class="cert-desc">-40°C ~ 125°C</p>
+                        <p class="cert-status">✅ 검증 완료</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">부식 저항</p>
+                        <p class="cert-desc">1000시간 염무료</p>
+                        <p class="cert-status">✅ 합격</p>
+                    </div>
+                </div>
+
+                <div class="cert-card">
+                    <h3 class="cert-title">♻️ 환경 기준</h3>
+                    <div class="cert-item">
+                        <p class="cert-name">SF6-Free</p>
+                        <p class="cert-desc">친환경 설계</p>
+                        <p class="cert-status">✅ 100% 준수</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">RE-Power</p>
+                        <p class="cert-desc">에너지 효율</p>
+                        <p class="cert-status">✅ 등급 A</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">리사이클</p>
+                        <p class="cert-desc">재활용 설계</p>
+                        <p class="cert-status">✅ 95% 이상</p>
+                    </div>
+                    <div class="cert-item">
+                        <p class="cert-name">탄소 발자국</p>
+                        <p class="cert-desc">저탄소 생산</p>
+                        <p class="cert-status">✅ 40% 감소</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="section-title">고객 피드백</h2>
+            <p class="section-subtitle">FM의 신뢰도를 증명하는 고객 목소리</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "FM 퓨즈는 10년간 제로 결함으로 운영되고 있습니다. 
+                        신뢰도가 정말 뛰어납니다."
+                    </p>
+                    <p class="testimonial-source">— 글로벌 자동차 제조사 엔지니어</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "AI 검사로 품질이 또다시 향상되었다는 점이 인상적입니다. 
+                        기술 개선에 계속 투자하는 회사다."
+                    </p>
+                    <p class="testimonial-source">— EV 배터리 시스템 개발자</p>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "FM 제품은 단가 대비 신뢰도가 최고입니다. 
+                        경쟁사 대비 확실히 낫습니다."
+                    </p>
+                    <p class="testimonial-source">— 자동차 부품 공급 담당자</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div>
+                <h4>FM Fuses</h4>
+                <p>신뢰도와 혁신으로 만드는 퓨즈</p>
+                <p>Contact: info@fm-fuses.com</p>
+            </div>
+            <div>
+                <h4>제품</h4>
+                <p>4-Pin Fuse Box</p>
+                <p>6-Pin Fuse Box</p>
+                <p>Smart Fuse</p>
+                <p>Ultra-Reliable Fuse</p>
+            </div>
+            <div>
+                <h4>회사</h4>
+                <p>기업 문화</p>
+                <p>기술 로드맵</p>
+                <p>미디어 센터</p>
+                <p>채용 정보</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

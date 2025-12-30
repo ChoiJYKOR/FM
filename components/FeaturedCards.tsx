@@ -17,17 +17,17 @@ const featuredItems = [
   },
   {
     id: 3,
-    title: "Hydrogen energy as the key to achieving zero carbon emission",
-    description: "Hydrogen in the near future",
-    imageUrl: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=400&fit=crop",
-    link: "#",
+    title: "FM 퓨즈 검수 AI 강의 시리즈",
+    description: "컴퓨터 눈으로 보는 완벽한 품질 검사",
+    imageUrl: "/images/Vision2/LeCover2.jpeg",
+    link: "/lecture",
   },
   {
     id: 4,
-    title: "Automotive semiconductor will transform society",
-    description: "A new type of digital transformation",
-    imageUrl: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&h=400&fit=crop",
-    link: "#",
+    title: "결함 감지 시스템 구축의 분투기",
+    description: "FM Safety 정재영 연구원 인터뷰 - 산업용 퓨즈의 100% 신뢰성을 위한 다층 검증 아키텍처 개발 사례",
+    imageUrl: "/images/Vision2/LeCover.jpeg",
+    link: "/interview/Jung",
   },
 ];
 

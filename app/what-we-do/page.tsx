@@ -20,9 +20,9 @@ export default function WhatWeDoPage() {
   // 각 블록별 이미지 인덱스 관리 (키: `tabIndex-blockIndex`)
   const [activeImageIndex, setActiveImageIndex] = useState<Record<string, number>>({});
 
-  // 현재 탭의 뷰 모드 가져오기 (기본값: 'scroll')
+  // 현재 탭의 뷰 모드 가져오기 (기본값: 'slide')
   const getViewMode = (tabIndex: number): 'scroll' | 'slide' => {
-    return viewModes[tabIndex] || 'scroll';
+    return viewModes[tabIndex] || 'slide';
   };
 
   // 현재 탭의 블록 인덱스 가져오기 (기본값: 0)

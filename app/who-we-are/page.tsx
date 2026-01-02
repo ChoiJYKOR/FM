@@ -17,7 +17,7 @@ const teamMembers = [
     name: "김재열",
     role: "IoT팀",
     description: "3D 모델링\n통전 테스트 시스템 설계 및 제작\n비전 테스트 조명 시스템 설계 및 제작",
-    image: "/images/team-member-2.jpg",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767278058/1767275916518_po3asi.jpg",
   },
   {
     id: 3,
@@ -37,14 +37,14 @@ const teamMembers = [
     id: 5,
     name: "지동원",
     role: "PLC/로봇팀",
-    description: "PLC프로그램 제작\n케이스 결착 로봇 구현",
-    image: "/images/team-member-5.jpg",
+    description: "PLC프로그램 제작\nHMI2 제작\n케이스 결착 로봇 구현",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767126524/grok_1767091040948_fmvmih.jpg",
   },
   {
     id: 6,
     name: "정재영",
     role: "AI팀",
-    description: "YOLO+CNN을 활용한 퓨즈 케이스 검수 알고리즘 개발",
+    description: "YOLO+ResNet18을 활용한 퓨즈 케이스 검수 알고리즘 개발",
     image: "/images/team-member-6.jpg",
   },
   {

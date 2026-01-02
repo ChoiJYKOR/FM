@@ -1,9 +1,9 @@
 import type { Chapter } from '../types';
 import { codeFiles } from '../code-data';
 
-export const chapter6: Chapter = {
-  id: 6,
-  title: "조도 센서를 활용한 LED 조절",
+export const chapter7: Chapter = {
+  id: 7,
+  title: "조명 시스템",
   description: "비전 검사 공정에서, 외부 환경에 관계 없이, 일정한 밝기를 제공하기 위해 조도 센서를 활용하여 LED 강도 조절.",
   images: [
     {

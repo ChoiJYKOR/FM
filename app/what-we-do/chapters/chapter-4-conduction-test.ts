@@ -1,7 +1,7 @@
 import type { Chapter } from '../types';
 
-export const chapter3: Chapter = {
-  id: 3,
+export const chapter4: Chapter = {
+  id: 4,
   title: "통전 테스트",
   description: "각 퓨즈의 전기적 특성을 정확하게 측정하고 검증합니다.",
   images: [
@@ -17,7 +17,7 @@ export const chapter3: Chapter = {
       ],
     },
     {
-      url: "/images/20251223_180632.jpg",
+      url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767126203/ArduinoMega_drs9vh.jpg",
       sections: [
         {
           title: "작동방식",
@@ -33,7 +33,8 @@ export const chapter3: Chapter = {
         {
           title: "작동방식",
           description: [
-            "정상이면 0V가 출력됨"
+            "정상이면 0V 출력",
+            "아두이노 코드에서 0을 1로 반전하여 사람이 직관적으로 판단할 수 있도록 함",
           ],
         },
       ],
@@ -44,7 +45,19 @@ export const chapter3: Chapter = {
         {
           title: "작동방식",
           description: [
-            "비정상이면 5V가 출력됨"
+            "비정상이면 5V 출력",
+            "아두이노 코드에서 0을 1로 반전하여 사람이 직관적으로 판단할 수 있도록 함",
+          ],
+        },
+      ],
+    },
+    {
+      url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767099148/HMI_01_cibe5a.png",
+      sections: [
+        {
+          title: "HMI 대시보드",
+          description: [
+            "실시간 모니터링 및 검수 결과 확인"
           ],
         },
       ],

@@ -176,7 +176,7 @@ export default function AboutCompanyPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                       {[
                         { num: 1, title: "Safety First", desc: "제품의 안전성을 최우선으로 합니다. 모든 설계, 제조, 검사 단계에서 최고 수준의 안전 기준을 준수합니다." },
-                        { num: 2, title: "Innovation", desc: "YOLO + ROI + CNN 기반 AI 비전 검사 기술로 산업을 혁신합니다. R&D 투자 8~10%를 지속적으로 확대하고 있습니다." },
+                        { num: 2, title: "Innovation", desc: "YOLO + ROI + ResNet 기반 AI 비전 검사 기술로 산업을 혁신합니다. R&D 투자 8~10%를 지속적으로 확대하고 있습니다." },
                         { num: 3, title: "Reliability", desc: "99.5% 이상의 검사 정확도로 고객의 신뢰를 얻습니다. 글로벌 자동차 제조사 3사와의 장기 계약이 증명합니다." },
                         { num: 4, title: "Sustainability", desc: "친환경 제조 프로세스와 SF6-Free 정책으로 미래 세대를 위한 책임감 있는 기업 활동을 합니다." },
                         { num: 5, title: "Partnership", desc: "고객, 파트너, 직원과의 신뢰 기반 협력을 통해 함께 성장합니다. 배터리 안전 Task Force 주도적 참여." },

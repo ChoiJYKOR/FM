@@ -74,5 +74,83 @@ void loop() {
   Serial.print(" | LED 밝기: ");
   Serial.println(brightness);
 }`,
+  'plc-settings': `# ==========================================================
+# PLC 설정
+# ==========================================================
+PLC_IP = "192.168.3.10"
+PLC_PORT = 1025
+
+CV_RESULT_ADDR = "D100"
+NG_SIGNAL = "M102"
+OK_SIGNAL = "M103"
+WORKING = "M104"
+
+plc = Type3E()
+plc.connect(PLC_IP, PLC_PORT)
+plc_lock = threading.Lock()
+
+# ==========================================================
+# PLC 설정 (결과 전송 PLC)
+# ==========================================================
+PLC2_IP = "192.168.3.50"
+PLC2_PORT = 1025
+
+plc2 = Type3E()
+plc2.connect(PLC2_IP, PLC2_PORT)
+plc2_lock = threading.Lock()`,
+  'plc-robot-logic': `with plc_lock:
+    plc.batchwrite_bitunits(WORKING, [1])
+
+# 9 -> 4구, 10 -> 6구
+if detected_value == 9:
+    approach, target, back = POS_A_APPROACH, POS_A_TARGET, POS_A_BACK
+elif detected_value == 10:
+    approach, target, back = POS_B_APPROACH, POS_B_TARGET, POS_B_BACK
+else:
+    robot_state = STATE_IDLE
+    task_queue.task_done()
+    continue
+
+indy.task_move_to(approach)
+while not indy.get_robot_status()['movedone']:
+    time.sleep(0.05)
+
+indy.task_move_to(target)
+while not indy.get_robot_status()['movedone']:
+    time.sleep(0.05)
+
+time.sleep(2)`,
+  'plc-quality-control': `if d100_value == 9:
+    with plc_lock:
+        if di7 == 1:  # 4구 통전 불량
+            plc.batchwrite_bitunits(NG_SIGNAL, [1])
+            plc.batchwrite_wordunits(CV_RESULT_ADDR, [4])
+            time.sleep(2)
+            plc.batchwrite_bitunits(NG_SIGNAL, [0])
+        elif di8 == 1:  # 4구 양품 유지
+            plc.batchwrite_bitunits(OK_SIGNAL, [1])
+            time.sleep(3)
+            plc.batchwrite_bitunits(OK_SIGNAL, [0])
+    
+    # PLC2에도 최종 결과 동기화
+    with plc2_lock:
+        if di7 == 1:
+            plc2.batchwrite_wordunits("D100", [4])
+
+elif d100_value == 10:
+    with plc_lock:
+        if di7 == 1:  # 6구 통전 불량
+            plc.batchwrite_bitunits(NG_SIGNAL, [1])
+            plc.batchwrite_wordunits(CV_RESULT_ADDR, [7])
+            time.sleep(2)
+            plc.batchwrite_bitunits(NG_SIGNAL, [0])
+        elif di8 == 1:  # 6구 양품 유지
+            plc.batchwrite_bitunits(OK_SIGNAL, [1])
+            time.sleep(3)
+            plc.batchwrite_bitunits(OK_SIGNAL, [0])
+    
+    with plc2_lock:
+        if di7 == 1:
+            plc2.batchwrite_wordunits("D100", [7])`,
 };
 

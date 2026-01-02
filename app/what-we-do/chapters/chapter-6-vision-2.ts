@@ -1,12 +1,12 @@
 import type { Chapter } from '../types';
 
-export const chapter5: Chapter = {
-  id: 5,
-  title: "비전 검사 2 (결착면 체크)",
+export const chapter6: Chapter = {
+  id: 6,
+  title: "비전 테스트",
   description: "결착된 뚜껑의 품질을 비전 검사로 확인합니다.",
   images: [
     {
-      url: "/images/chapter-5-1.jpg",
+      url: "/images/Vision2/LeCover.jpeg",
       sections: [
         {
           title: "주요 특징",

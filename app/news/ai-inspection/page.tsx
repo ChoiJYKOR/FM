@@ -27,7 +27,7 @@ export default function AIInspectionPage() {
 
               {/* YouTube Video */}
               <YouTubeEmbed
-                videoId="YOUR_VIDEO_ID"
+                videoId="Y0hIOCabe1k"
                 title="AI를 활용한 퓨즈 검수공정 고도화 시연"
               />
 

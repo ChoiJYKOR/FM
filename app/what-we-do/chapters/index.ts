@@ -1,11 +1,11 @@
 import { chapter0 } from './chapter-0-overview';
 import { chapter1 } from './chapter-1-process';
-import { chapter2 } from './chapter-2-vision-1';
-import { chapter3 } from './chapter-3-conduction-test';
-import { chapter4 } from './chapter-4-cap-assembly';
-import { chapter5 } from './chapter-5-vision-2';
-import { chapter6 } from './chapter-6-led-control';
-import { chapter7 } from './chapter-7-palletizing';
+import { chapter2 } from './chapter-2-plc';
+import { chapter3 } from './chapter-3-robot';
+import { chapter4 } from './chapter-4-conduction-test';
+import { chapter6 } from './chapter-6-vision-2';
+import { chapter7 } from './chapter-7-led-control';
+import { chapter8 } from './chapter-8-summary';
 
 export const chapters = [
   chapter0,
@@ -13,8 +13,8 @@ export const chapters = [
   chapter2,
   chapter3,
   chapter4,
-  chapter5,
   chapter6,
   chapter7,
+  chapter8,
 ];
 

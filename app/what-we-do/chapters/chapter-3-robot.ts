@@ -1,8 +1,8 @@
 import type { Chapter } from '../types';
 
-export const chapter7: Chapter = {
-  id: 7,
-  title: "종류별 파렐타이징",
+export const chapter3: Chapter = {
+  id: 3,
+  title: "로봇",
   description: "완성된 퓨즈를 종류별로 자동으로 파렐타이징합니다.",
   images: [
     {

@@ -464,7 +464,7 @@ export default function JungInterviewPage() {
                     </p>
                     <div className="bg-gray-50 p-6 rounded-lg">
                       <p className="text-base md:text-lg italic mb-4">
-                        "초기엔 제 혼자였어요. 그다음에 소프트웨어 엔지니어 1명, 데이터 과학자 1명을 고용했죠. 역할 분담은:"
+                        "초기엔 저 혼자였어요. 그다음에 소프트웨어 엔지니어 1명, 데이터 과학자 1명을 고용했죠. 역할 분담은:"
                       </p>
                       <ul className="list-disc list-inside space-y-2 ml-4 text-base md:text-lg">
                         <li><strong>나 (정재영)</strong>: 아키텍처 설계, 컴퓨터 비전 알고리즘, 현장 문제 해결</li>

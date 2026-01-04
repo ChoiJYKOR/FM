@@ -7,19 +7,19 @@ const heroSlides = [
     id: 1,
     title: "Safety is Our Foundation",
     subtitle: "세계 최고 수준의 안전 퓨즈로 완성차와 로봇 산업을 지킵니다",
-    image: "/img/BG_002.jpg",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767559662/photo_2026-01-05_05-47-20_bby6g6.jpg",
   },
   {
     id: 2,
     title: "Precision Engineering",
     subtitle: "스마트 제조 혁신으로 업계 최고의 신뢰성을 확보합니다",
-    image: "/img/BG_003.jpg",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767559661/photo_2026-01-05_05-47-17_jmsqhv.jpg",
   },
   {
     id: 3,
     title: "Fire Prevention at the Frontline",
     subtitle: "시민의 안전이 우리의 책임, 믿을 수 있는 기술로 위기를 예방합니다",
-    image: "/img/BG_05.jpg",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767559662/photo_2026-01-05_05-47-15_wyjhvc.jpg",
   },
 ];
 
@@ -103,11 +103,10 @@ export default function Hero() {
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`h-2 md:h-3 rounded-full transition-all ${
-                index === currentSlide
+              className={`h-2 md:h-3 rounded-full transition-all ${index === currentSlide
                   ? "bg-primary w-6 md:w-8"
                   : "bg-white/60 hover:bg-white/80 w-2 md:w-3"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}

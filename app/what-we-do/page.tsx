@@ -177,7 +177,7 @@ export default function WhatWeDoPage() {
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
     }
-  }, [activeTab, viewModes, activeBlockIndex]);
+  }, [activeTab, viewModes, activeBlockIndex, getCurrentBlockIndex, getViewMode, handleNextBlock, handlePrevBlock]);
 
   return (
     <main className="min-h-screen">

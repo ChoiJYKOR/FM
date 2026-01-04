@@ -11,14 +11,16 @@ interface LectureContentProps {
   lecture1: string;
   lecture2: string;
   lecture3: string;
+  lectureBonus: string;
 }
 
 export default function LectureContent({
   lecture1,
   lecture2,
   lecture3,
+  lectureBonus,
 }: LectureContentProps) {
-  const [activePart, setActivePart] = useState<1 | 2 | 3>(1);
+  const [activePart, setActivePart] = useState<1 | 2 | 3 | "bonus">(1);
 
   const getCurrentContent = () => {
     switch (activePart) {
@@ -28,6 +30,8 @@ export default function LectureContent({
         return lecture2;
       case 3:
         return lecture3;
+      case "bonus":
+        return lectureBonus;
     }
   };
 
@@ -36,17 +40,16 @@ export default function LectureContent({
       {/* Tabs */}
       <div className="mb-8 md:mb-12">
         <div className="flex space-x-2 md:space-x-4 border-b border-gray-200">
-          {[1, 2, 3].map((part) => (
+          {[1, 2, 3, "bonus"].map((part) => (
             <button
               key={part}
-              onClick={() => setActivePart(part as 1 | 2 | 3)}
-              className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold transition-all duration-200 border-b-2 ${
-                activePart === part
+              onClick={() => setActivePart(part as 1 | 2 | 3 | "bonus")}
+              className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold transition-all duration-200 border-b-2 ${activePart === part
                   ? "text-primary border-primary"
                   : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
-              }`}
+                }`}
             >
-              {part}부
+              {part === "bonus" ? "번외편" : `${part}부`}
             </button>
           ))}
         </div>
@@ -154,4 +157,5 @@ export default function LectureContent({
     </>
   );
 }
+
 

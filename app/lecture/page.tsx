@@ -7,6 +7,7 @@ export default function LecturePage() {
   const lecture1 = getLectureContent(1);
   const lecture2 = getLectureContent(2);
   const lecture3 = getLectureContent(3);
+  const lectureBonus = getLectureContent('bonus');
 
   return (
     <main className="min-h-screen">
@@ -28,6 +29,7 @@ export default function LecturePage() {
             lecture1={lecture1}
             lecture2={lecture2}
             lecture3={lecture3}
+            lectureBonus={lectureBonus}
           />
 
           {/* Back Button */}

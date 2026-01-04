@@ -2,6 +2,9 @@
 ## 🎬 번외편: YOLO+ResNet vs Anomaly Detection
 ### "두 가지 접근 방식의 대결, 어떤 걸 선택할까?"
 
+![ResNet vs Anomaly Detection](https://res.cloudinary.com/dcjij84tc/image/upload/v1767498167/ResNet_vs_Anomaly.png_k8gn88.jpg)
+
+
 ---
 
 ## 📚 들어가며

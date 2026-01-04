@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -113,20 +114,21 @@ export default function WhoWeArePage() {
               >
                 {/* Left: Image */}
                 <div className="w-full md:w-1/3 flex-shrink-0">
-                  <div className="aspect-square w-full max-w-xs mx-auto md:mx-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center">
+                  <div className="aspect-square w-full max-w-xs mx-auto md:mx-0 rounded-lg overflow-hidden bg-gray-200 flex items-center justify-center relative">
                     {failedImages.has(member.image) ? (
                       <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm">
                         이미지 준비중
                       </div>
                     ) : (
-                      /* eslint-disable-next-line @next/next/no-img-element */
-                      <img
+                      <Image
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
                         onError={() => {
                           setFailedImages((prev) => new Set(prev).add(member.image));
                         }}
+                        sizes="(max-width: 768px) 100vw, 320px"
                       />
                     )}
                   </div>

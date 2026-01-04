@@ -94,7 +94,7 @@ if now - last_signal_time > COOLDOWN:
           title: "비전2: 데이터 전처리 및 증강",
           description: [
             "객체 라벨링 및 증강 도구 “ROBOFLOW” 사이트 활용",
-            "이미지 전처리: Auto-Orient, Resize, Grayscale 적용",
+            "이미지 전처리: Auto-Orient, Resize 적용",
             "데이터 증강: Flip, Rotate, Noise Injection 등을 통한 모델 강건성 확보",
 
           ],

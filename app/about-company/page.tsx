@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -49,11 +50,10 @@ export default function AboutCompanyPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(index)}
-                    className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-200 border-b-2 ${
-                      activeTab === index
-                        ? "text-primary border-primary"
-                        : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
-                    }`}
+                    className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-200 border-b-2 ${activeTab === index
+                      ? "text-primary border-primary"
+                      : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
+                      }`}
                   >
                     {tab.title}
                   </button>
@@ -1079,7 +1079,7 @@ export default function AboutCompanyPage() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                       <div className="bg-white p-8 rounded-lg border-l-4 border-primary">
                         <p className="text-gray-700 italic leading-relaxed mb-4">
-                          &quot;FM 퓨즈는 10년간 제로 결함으로 운영되고 있습니다. 
+                          &quot;FM 퓨즈는 10년간 제로 결함으로 운영되고 있습니다.
                           신뢰도가 정말 뛰어납니다.&quot;
                         </p>
                         <p className="text-sm text-gray-500">— 글로벌 자동차 제조사 엔지니어</p>
@@ -1087,7 +1087,7 @@ export default function AboutCompanyPage() {
 
                       <div className="bg-white p-8 rounded-lg border-l-4 border-primary">
                         <p className="text-gray-700 italic leading-relaxed mb-4">
-                          &quot;AI 검사로 품질이 또다시 향상되었다는 점이 인상적입니다. 
+                          &quot;AI 검사로 품질이 또다시 향상되었다는 점이 인상적입니다.
                           기술 개선에 계속 투자하는 회사다.&quot;
                         </p>
                         <p className="text-sm text-gray-500">— EV 배터리 시스템 개발자</p>
@@ -1095,7 +1095,7 @@ export default function AboutCompanyPage() {
 
                       <div className="bg-white p-8 rounded-lg border-l-4 border-primary">
                         <p className="text-gray-700 italic leading-relaxed mb-4">
-                          &quot;FM 제품은 단가 대비 신뢰도가 최고입니다. 
+                          &quot;FM 제품은 단가 대비 신뢰도가 최고입니다.
                           경쟁사 대비 확실히 낫습니다.&quot;
                         </p>
                         <p className="text-sm text-gray-500">— 자동차 부품 공급 담당자</p>
@@ -1112,11 +1112,17 @@ export default function AboutCompanyPage() {
                 <div className="prose prose-lg max-w-none">
                   {/* CI 이미지 */}
                   <div className="mb-8">
-                    <img
-                      src="/images/FM_CI_img.png"
-                      alt="FM Corporate Identity"
-                      className="w-full h-auto rounded-lg"
-                    />
+                    <div className="mb-8 relative w-full h-auto">
+                      <Image
+                        src="/images/FM_CI_img.png"
+                        alt="FM Corporate Identity"
+                        width={1200}
+                        height={600}
+                        style={{ width: '100%', height: 'auto' }}
+                        className="rounded-lg"
+                        priority
+                      />
+                    </div>
                   </div>
 
                   {/* 문서 헤더 */}
@@ -1261,7 +1267,7 @@ export default function AboutCompanyPage() {
                     <div className="bg-gray-50 p-6 rounded-lg mb-6">
                       <p className="font-semibold mb-2">레이아웃:</p>
                       <pre className="text-sm font-mono text-gray-700 whitespace-pre-wrap">
-{`┌─────────────────────────────────────┐
+                        {`┌─────────────────────────────────────┐
 │  FM "Crafting Safety,               │
 │     Securing Tomorrow"              │
 │  ▲ 30mm (HIGH)                      │

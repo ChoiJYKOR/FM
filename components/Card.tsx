@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 interface CardProps {
   title: string;
@@ -14,10 +15,11 @@ export default function Card({ title, description, imageUrl, link }: CardProps) 
     <div className="group relative bg-white rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300">
       {imageUrl && (
         <div className="relative h-48 bg-gray-200 overflow-hidden">
-          <img
+          <Image
             src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+            fill
+            className="object-cover group-hover:scale-110 transition-transform duration-300"
           />
         </div>
       )}

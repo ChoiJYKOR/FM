@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import Image from "next/image";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Header from "@/components/Header";
@@ -31,32 +32,32 @@ export default function WhatWeDoPage() {
   const [activeImageIndex, setActiveImageIndex] = useState<Record<string, number>>({});
 
   // 현재 탭의 뷰 모드 가져오기 (기본값: 'slide')
-  const getViewMode = (tabIndex: number): 'scroll' | 'slide' => {
+  const getViewMode = useCallback((tabIndex: number): 'scroll' | 'slide' => {
     return viewModes[tabIndex] || 'slide';
-  };
+  }, [viewModes]);
 
   // 현재 탭의 블록 인덱스 가져오기 (기본값: 0)
-  const getCurrentBlockIndex = (tabIndex: number): number => {
+  const getCurrentBlockIndex = useCallback((tabIndex: number): number => {
     return activeBlockIndex[tabIndex] || 0;
-  };
+  }, [activeBlockIndex]);
 
   // 현재 이미지 인덱스 가져오기 (기본값: 0)
-  const getCurrentImageIndex = (tabIndex: number, blockIndex: number): number => {
+  const getCurrentImageIndex = useCallback((tabIndex: number, blockIndex: number): number => {
     const key = `${tabIndex}-${blockIndex}`;
     return activeImageIndex[key] || 0;
-  };
+  }, [activeImageIndex]);
 
   // 이미지 인덱스 설정
-  const setCurrentImageIndex = (tabIndex: number, blockIndex: number, imageIndex: number) => {
+  const setCurrentImageIndex = useCallback((tabIndex: number, blockIndex: number, imageIndex: number) => {
     const key = `${tabIndex}-${blockIndex}`;
     setActiveImageIndex((prev) => ({
       ...prev,
       [key]: imageIndex,
     }));
-  };
+  }, []);
 
   // 뷰 모드 토글 함수
-  const handleToggleViewMode = (tabIndex: number) => {
+  const handleToggleViewMode = useCallback((tabIndex: number) => {
     const currentMode = getViewMode(tabIndex);
     const newMode = currentMode === 'scroll' ? 'slide' : 'scroll';
 
@@ -73,10 +74,10 @@ export default function WhatWeDoPage() {
       }));
       setCurrentImageIndex(tabIndex, 0, 0);
     }
-  };
+  }, [getViewMode, setCurrentImageIndex]);
 
   // 다음 블록으로 이동
-  const handleNextBlock = (tabIndex: number, totalBlocks: number) => {
+  const handleNextBlock = useCallback((tabIndex: number, totalBlocks: number) => {
     const currentIndex = getCurrentBlockIndex(tabIndex);
     if (currentIndex < totalBlocks - 1) {
       const newBlockIndex = currentIndex + 1;
@@ -103,10 +104,10 @@ export default function WhatWeDoPage() {
         }
       }, 0);
     }
-  };
+  }, [getCurrentBlockIndex, setCurrentImageIndex]);
 
   // 이전 블록으로 이동
-  const handlePrevBlock = (tabIndex: number) => {
+  const handlePrevBlock = useCallback((tabIndex: number) => {
     const currentIndex = getCurrentBlockIndex(tabIndex);
     if (currentIndex > 0) {
       const newBlockIndex = currentIndex - 1;
@@ -133,7 +134,7 @@ export default function WhatWeDoPage() {
         }
       }, 0);
     }
-  };
+  }, [getCurrentBlockIndex, setCurrentImageIndex]);
 
   // ESC 키로 모달 닫기
   useEffect(() => {
@@ -319,16 +320,19 @@ export default function WhatWeDoPage() {
                                         </div>
                                       ) : (
                                         // Image
-                                        <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity">
+                                        <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity relative">
                                           {failedImages.has(imageUrl) ? (
                                             <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
                                               이미지 준비중
                                             </div>
                                           ) : (
-                                            <img
+                                            <Image
                                               src={imageUrl}
                                               alt={`${chapter.title} - 이미지 ${imgIndex + 1}`}
-                                              className="w-full h-auto object-contain"
+                                              width={1200}
+                                              height={800}
+                                              style={{ width: '100%', height: 'auto' }}
+                                              className="object-contain"
                                               onClick={() => setSelectedImage(imageUrl)}
                                               onError={() => {
                                                 setFailedImages((prev) => new Set(prev).add(imageUrl));
@@ -455,15 +459,17 @@ export default function WhatWeDoPage() {
                                               이미지 준비중
                                             </div>
                                           ) : (
-                                            <img
+                                            <Image
                                               src={currentItem.url}
                                               alt={`${chapter.title} - 아이템 ${currentBlockIndex + 1}-${safeItemIdx + 1}`}
-                                              className="w-full h-auto object-contain transition-opacity duration-300"
+                                              width={1200}
+                                              height={800}
+                                              style={{ width: '100%', height: 'auto', cursor: laserPointerCursor }}
+                                              className="object-contain transition-opacity duration-300"
                                               onClick={() => setSelectedImage(currentItem.url)}
                                               onError={() => {
                                                 setFailedImages((prev) => new Set(prev).add(currentItem.url));
                                               }}
-                                              style={{ cursor: laserPointerCursor }}
                                             />
                                           )}
                                         </div>
@@ -875,13 +881,16 @@ export default function WhatWeDoPage() {
                   />
                 </svg>
               </button>
-              <img
-                src={selectedImage}
-                alt="확대된 이미지"
-                className="max-w-full max-h-[90vh] object-contain"
-                onClick={() => setSelectedImage(null)}
-                style={isSlideMode ? { cursor: laserPointerCursor } : { cursor: 'pointer' }}
-              />
+              <div className="relative w-full h-[90vh]">
+                <Image
+                  src={selectedImage}
+                  alt="확대된 이미지"
+                  fill
+                  className="object-contain"
+                  onClick={() => setSelectedImage(null)}
+                  style={isSlideMode ? { cursor: laserPointerCursor } : { cursor: 'pointer' }}
+                />
+              </div>
             </div>
           </div>
         );

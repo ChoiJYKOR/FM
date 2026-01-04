@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -22,22 +24,14 @@ export default function OurJourneyPage() {
           {/* Main Image */}
           <div className="mb-12">
             <div className="rounded-lg overflow-hidden bg-gray-200 shadow-lg">
-              <img
+              <Image
                 src="https://res.cloudinary.com/dcjij84tc/image/upload/v1767525333/%EC%9D%BC%EC%A0%95%ED%91%9C_nzsygd.png"
                 alt="우리의 험난한 여정"
-                className="w-full h-auto object-contain"
-                onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = "none";
-                  const parent = target.parentElement;
-                  if (parent && !parent.querySelector(".placeholder")) {
-                    const placeholder = document.createElement("div");
-                    placeholder.className =
-                      "placeholder w-full h-full flex items-center justify-center text-gray-400 text-sm py-8";
-                    placeholder.textContent = "이미지 준비중";
-                    parent.appendChild(placeholder);
-                  }
-                }}
+                width={1200}
+                height={800}
+                style={{ width: '100%', height: 'auto' }}
+                className="object-contain"
+                priority
               />
             </div>
           </div>

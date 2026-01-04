@@ -1,13 +1,16 @@
 import type { Chapter } from '../types';
-import { codeFiles } from '../code-data';
+
 
 export const chapter2: Chapter = {
   id: 2,
   title: "PLC",
-  description: "PLC 통한 자동화 공정 제어 시스템입니다.",
+  description: "PLC를 활용한 자동화 공정 제어 시스템.",
   images: [
     {
-      url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767501077/PLC_img_stpy6o.jpg",
+      urls: [
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767501077/PLC_img_stpy6o.jpg",
+
+      ],
       sections: [
         {
           title: "PLC 분산 제어 아키텍처",
@@ -22,9 +25,11 @@ export const chapter2: Chapter = {
       ],
     },
     {
-      type: 'code' as const,
-      language: 'python',
-      code: codeFiles['plc-quality-control'],
+      urls: [
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767507477/plc_50_data_e7sj9k.png",
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767508399/plc_30_4or6_s6msrc.png",
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767504361/plc_40_sensor_actuator_tz61ae.png"
+      ],
       sections: [
         {
           title: "D-Register 기반 '디지털 이력제’",
@@ -40,9 +45,59 @@ export const chapter2: Chapter = {
       ],
     },
     {
-      type: 'code' as const,
-      language: 'python',
-      code: codeFiles['plc-robot-logic'],
+      items: [
+        { type: 'image', url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767508399/plc_30_4or6_s6msrc.png" },
+        { type: 'image', url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767508400/plc_30_emer_lenltq.png" },
+        {
+          type: 'code',
+          language: 'python',
+          code: `# 로봇 연결
+ROBOT_IP = "192.168.3.4"
+ROBOT_NAME = "NRMK-Indy7"
+indy = client.IndyDCPClient(ROBOT_IP, ROBOT_NAME)
+indy.connect()
+print("Indy7 연결 성공")
+# PLC 연결
+PLC_IP = "192.168.3.40"
+PLC_PORT = 1025
+PLC_START1 = "M100"   # PLC → Python (4구 퓨즈)
+PLC_START2 = "M200"   # PLC → Python (6구 퓨즈)
+PLC_DONE1  = "M101"   # Python → PLC (4구 퓨즈)
+PLC_DONE2  = "M201"   # Python → PLC (6구 퓨즈)
+plc = Type3E()
+plc.connect(PLC_IP, PLC_PORT)
+print("PLC 연결 성공")`
+
+        },
+        {
+          type: 'code',
+          language: 'python',
+          code: `# ==========================================================
+# PLC 설정
+# ==========================================================
+PLC_IP = "192.168.3.10"
+PLC_PORT = 1025
+CV_RESULT_ADDR = "D100"
+NG_SIGNAL = "M102"
+OK_SIGNAL = "M103"
+WORKING = "M104"
+plc = Type3E()
+plc.connect(PLC_IP, PLC_PORT)
+plc_lock = threading.Lock()
+
+# ==========================================================
+# PLC 설정 (결과 전송 PLC)
+# ==========================================================
+PLC2_IP = "192.168.3.50"
+PLC2_PORT = 1025
+plc2 = Type3E()
+plc2.connect(PLC2_IP, PLC2_PORT)
+plc2_lock = threading.Lock()
+
+with plc_lock:
+    plc.batchwrite_bitunits(WORKING, [1])`
+        }
+      ],
       sections: [
         {
           title: "M-Relay 기반 '지능형 핸드쉐이크’",
@@ -52,16 +107,15 @@ export const chapter2: Chapter = {
             "M100 / M101: 모델별(6구/4구) 로봇 동작 트리거 신호 발행",
             "M110: 비상 정지 신호를 로봇 파이썬 코드로 즉시 전파하여 장비 보호",
             "► Feedback (Robot → PLC)",
-            "M102 / M201: 작업 완료 신호 보고 및 PLC 시퀀스 다음 단계 전환 유도",
+            "M101 / M201: 작업 완료 신호 보고 및 PLC 시퀀스 다음 단계 전환 유도",
             "M104: '로봇 동작 중' 신호로 타 장비 진입 차단 및 안전 인터록 형성",
           ],
         },
       ],
     },
     {
-      type: 'code' as const,
-      language: 'python',
-      code: codeFiles['plc-quality-control'],
+      url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767501077/PLC_img_stpy6o.jpg",
+
       sections: [
         {
           title: "PLC 핵심 기술 역량",
@@ -69,7 +123,7 @@ export const chapter2: Chapter = {
             "고속 시퀀스 동기화",
             "지능형 핸드쉐이크",
             "실시간 데이터 추적성",
-            "자가 진단 및 안전 시스템",
+            "비상정지 안전 시스템",
           ],
         },
       ],

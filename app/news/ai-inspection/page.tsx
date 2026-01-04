@@ -27,7 +27,7 @@ export default function AIInspectionPage() {
 
               {/* YouTube Video */}
               <YouTubeEmbed
-                videoId="Y0hIOCabe1k"
+                videoId="QGh-jwa6f-M"
                 title="AI를 활용한 퓨즈 검수공정 고도화 시연"
               />
 
@@ -49,11 +49,11 @@ export default function AIInspectionPage() {
                 </h2>
                 <div className="space-y-4">
                   <p>
-                    본 시스템은 딥러닝 기반 이미지 분석 기술과 물리적인 통전 검사를 활용하여 퓨즈의 결착 여부와, 케이스 결합의 오류 등을 자동으로 감지합니다. 
+                    본 시스템은 딥러닝 기반 이미지 분석 기술과 물리적인 통전 검사를 활용하여 퓨즈의 결착 여부와, 케이스 결합의 오류 등을 자동으로 감지합니다.
                     고해상도 카메라와 AI 알고리즘이 결합되어 인력 검수에서 놓칠 수 있는 부분까지 정밀하게 검사할 수 있습니다.
                   </p>
                   <p>
-                    또한 실시간 데이터 수집 및 분석을 통해 생산 공정의 품질 트렌드를 모니터링하고, 
+                    또한 실시간 데이터 수집 및 분석을 통해 생산 공정의 품질 트렌드를 모니터링하고,
                     예측 분석을 통한 불량 예방 시스템을 구축하였습니다.
                   </p>
                 </div>
@@ -64,7 +64,7 @@ export default function AIInspectionPage() {
                   향후 계획
                 </h2>
                 <p>
-                  FM은 이번 성과를 바탕으로 전 생산 라인에 AI 검수 시스템을 확대 적용할 예정이며, 
+                  FM은 이번 성과를 바탕으로 전 생산 라인에 AI 검수 시스템을 확대 적용할 예정이며,
                   지속적인 알고리즘 개선을 통해 더욱 정밀한 품질 관리 체계를 구축해 나가겠습니다.
                 </p>
               </section>

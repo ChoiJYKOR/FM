@@ -13,7 +13,7 @@ export default function ChoiJuyeongInterviewPage() {
               "스타벅스 바리스타에서 프로젝트 리더로"
             </h1>
             <h2 className="text-xl md:text-2xl text-gray-600 mb-6">
-              FM팀 조장 인터뷰: 11일간의 변신, 그리고 배움
+              FM팀 조장 인터뷰: 12일간의 변신, 그리고 배움
             </h2>
           </header>
 
@@ -108,7 +108,7 @@ export default function ChoiJuyeongInterviewPage() {
                   </p>
                   <div className="bg-gray-50 p-6 rounded-lg">
                     <p className="text-base md:text-lg italic">
-                      "신기했어요. 정말. 저희 팀원들이 얼마나 적극적이고 열정적인지 몰랐거든요. 11일이라는 짧은 기간 동안 밤을 새우면서 배우고, 서로 부족한 부분을 채워주고... 저는 그냥 옆에서 '응, 좋아', '그 방향이 맞아', '조금 더 이렇게 해봐' 이런 식으로 방향만 제시하면 됐어요."
+                      "신기했어요. 정말. 저희 팀원들이 얼마나 적극적이고 열정적인지 몰랐거든요. 12일이라는 짧은 기간 동안 밤을 새우면서 배우고, 서로 부족한 부분을 채워주고... 저는 그냥 옆에서 '응, 좋아', '그 방향이 맞아', '조금 더 이렇게 해봐' 이런 식으로 방향만 제시하면 됐어요."
                     </p>
                   </div>
                   <p className="text-base md:text-lg">
@@ -126,7 +126,7 @@ export default function ChoiJuyeongInterviewPage() {
 
               <section>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                  "11일 동안 구현하지 못한 것들이 더 많다"
+                  "12일 동안 구현하지 못한 것들이 더 많다"
                 </h2>
                 <div className="space-y-4">
                   <p className="text-base md:text-lg">
@@ -142,7 +142,7 @@ export default function ChoiJuyeongInterviewPage() {
                   </p>
                   <div className="bg-gray-50 p-6 rounded-lg">
                     <p className="text-base md:text-lg italic">
-                      "...그럼에도 불구하고, 우리가 11일이라는 시간 안에 완성시킨 것도 대단하다고 생각해요. 보통은 이 정도의 프로젝트면 2~3개월이 걸리는데, 우리가 했잖아요. 그게 얼마나 대단한지 이제 알겠어요."
+                      "...그럼에도 불구하고, 우리가 12일이라는 시간 안에 완성시킨 것도 대단하다고 생각해요. 보통은 이 정도의 프로젝트면 2~3개월이 걸리는데, 우리가 했잖아요. 그게 얼마나 대단한지 이제 알겠어요."
                     </p>
                   </div>
                   <p className="text-base md:text-lg">
@@ -228,7 +228,7 @@ export default function ChoiJuyeongInterviewPage() {
                     매장 근무표를 짜던 리더십이, 이제는 프로젝트 팀을 이끈다.
                   </p>
                   <p className="text-base md:text-lg">
-                    11일간의 여정 속에서, 조장은 배웠다. 변화는 두렵지 않다는 것을. 그리고 좋은 팀과 좋은 교수님이 함께 있으면, 불가능은 가능이 된다는 것을.
+                    12일간의 여정 속에서, 조장은 배웠다. 변화는 두렵지 않다는 것을. 그리고 좋은 팀과 좋은 교수님이 함께 있으면, 불가능은 가능이 된다는 것을.
                   </p>
                   <p className="text-base md:text-lg">
                     다음 프로젝트에서, 그의 모습이 어떻게 변할지 기대된다.

@@ -23,14 +23,14 @@ export function optimizeImageUrl(
 
   // Cloudinary URL인지 확인
   const isCloudinary = url.includes('res.cloudinary.com');
-  
+
   if (!isCloudinary) {
     return url;
   }
 
   // Cloudinary URL 구조: .../upload/[변환]/[버전]/[파일명]
   // 또는: .../upload/[버전]/[파일명] (변환 없음)
-  
+
   const uploadIndex = url.indexOf('/upload/');
   if (uploadIndex === -1) {
     return url;
@@ -57,8 +57,8 @@ export function optimizeImageUrl(
   if (quality) transformations.push(`q_${quality}`);
   if (format) transformations.push(`f_${format}`);
 
-  const transformationString = transformations.length > 0 
-    ? `${transformations.join(',')}/` 
+  const transformationString = transformations.length > 0
+    ? `${transformations.join(',')}/`
     : '';
 
   return `${beforeUpload}${transformationString}${afterUpload}`;
@@ -78,7 +78,7 @@ export function isCodeBlock(image: ImageItem): image is { type: 'code'; language
 // Cloudinary URL은 자동으로 최적화됩니다.
 export function getImageUrl(image: Exclude<ImageItem, { type: 'code'; language: string; code: string; sections?: ImageSection[] }>): string {
   let url = '';
-  
+
   if (isImageObject(image)) {
     if (image.urls && image.urls.length > 0) {
       url = image.urls[0];
@@ -88,7 +88,7 @@ export function getImageUrl(image: Exclude<ImageItem, { type: 'code'; language: 
   } else if (typeof image === 'string') {
     url = image;
   }
-  
+
   // Cloudinary URL이면 자동으로 최적화
   return optimizeImageUrl(url);
 }
@@ -97,7 +97,7 @@ export function getImageUrl(image: Exclude<ImageItem, { type: 'code'; language: 
 // Cloudinary URL은 자동으로 최적화됩니다.
 export function getImageUrls(image: Exclude<ImageItem, { type: 'code'; language: string; code: string; sections?: ImageSection[] }>): string[] {
   let urls: string[] = [];
-  
+
   if (isImageObject(image)) {
     if (image.urls && image.urls.length > 0) {
       urls = image.urls;
@@ -107,34 +107,61 @@ export function getImageUrls(image: Exclude<ImageItem, { type: 'code'; language:
   } else {
     urls = [image];
   }
-  
+
   // 모든 Cloudinary URL을 자동으로 최적화
   return urls.map(url => optimizeImageUrl(url));
 }
 
+// 시각적 아이템 배열 추출 헬퍼 함수
+export function getVisualItems(image: ImageItem): import('./types').VisualItem[] {
+  if (typeof image === 'string') {
+    return [{ type: 'image', url: optimizeImageUrl(image) }];
+  }
+
+  // 1. items (혼합 콘텐츠) 확인
+  if (image.items && image.items.length > 0) {
+    return image.items.map(item => {
+      if (item.type === 'image') {
+        return { ...item, url: optimizeImageUrl(item.url) };
+      }
+      return item;
+    });
+  }
+
+  // 2. urls (다중 이미지) 확인
+  if (image.urls && image.urls.length > 0) {
+    return image.urls.map(url => ({ type: 'image', url: optimizeImageUrl(url) }));
+  }
+
+  // 3. url (단일 이미지) 확인 - image.type === 'code'가 아닌 경우만
+  if (image.url && image.type !== 'code') {
+    return [{ type: 'image', url: optimizeImageUrl(image.url) }];
+  }
+
+  // 4. 단일 코드 블록 확인
+  if (image.type === 'code' && image.language && image.code) {
+    return [{ type: 'code', language: image.language, code: image.code }];
+  }
+
+  return [];
+}
+
 // 이미지 섹션들 추출 헬퍼 함수
 export function getImageSections(image: ImageItem): ImageSection[] | undefined {
-  // 코드 블록인 경우
-  if (isCodeBlock(image)) {
-    return image.sections;
+  // 문자열인 경우
+  if (typeof image === 'string') return undefined;
+
+  // 객체인 경우
+  if (image.sections) return image.sections;
+
+  // sections가 없고 title이나 description이 있으면 단일 섹션으로 변환
+  if (image.title || image.description) {
+    return [{
+      title: image.title,
+      description: image.description || [],
+    }];
   }
-  
-  // 이미지 객체인 경우 (url이 있든 없든 sections만 있어도 처리)
-  if (typeof image === "object" && image !== null && !isCodeBlock(image)) {
-    const imageObj = image as { url?: string; urls?: string[]; description?: string | string[]; title?: string; sections?: ImageSection[] };
-    
-    // sections가 있으면 그것을 사용
-    if (imageObj.sections) return imageObj.sections;
-    
-    // sections가 없고 title이나 description이 있으면 단일 섹션으로 변환
-    if (imageObj.title || imageObj.description) {
-      return [{
-        title: imageObj.title,
-        description: imageObj.description || [],
-      }];
-    }
-  }
-  
+
   return undefined;
 }
 

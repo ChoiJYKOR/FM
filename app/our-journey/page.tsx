@@ -12,7 +12,7 @@ export default function OurJourneyPage() {
           {/* Header */}
           <header className="mb-12 text-center">
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-              11일의 기적, 포기하지 않은 팀의 이야기
+              12일의 기적, 포기하지 않은 팀의 이야기
             </h1>
             <p className="text-lg md:text-xl text-gray-600">
               FM 팀의 '불가능을 가능하게' 만든 도전기 — 프로젝트실 문 밖에서의 싸움
@@ -23,7 +23,7 @@ export default function OurJourneyPage() {
           <div className="mb-12">
             <div className="rounded-lg overflow-hidden bg-gray-200 shadow-lg">
               <img
-                src="/images/screenshot-2025-12-27.png"
+                src="https://res.cloudinary.com/dcjij84tc/image/upload/v1767525333/%EC%9D%BC%EC%A0%95%ED%91%9C_nzsygd.png"
                 alt="우리의 험난한 여정"
                 className="w-full h-auto object-contain"
                 onError={(e) => {
@@ -46,11 +46,11 @@ export default function OurJourneyPage() {
           <div className="prose prose-lg max-w-none">
             <div className="space-y-8 text-gray-700 leading-relaxed">
               <p className="text-lg">
-                부산의 한 프로젝트실. 아이템 선정부터 시연 영상 촬영까지 단 11일이라는 미션 불가능 같은 일정 앞에서, FM 팀은 고민했다. 일반적인 프로젝트라면 최소 2~3개월이 필요한 작업이었다. 하지만 이들은 다르게 생각했다. "안 되는 이유를 찾기보다, 되게 하는 방법을 찾자."
+                부산의 한 프로젝트실. 아이템 선정부터 시연 영상 촬영까지 단 12일이라는 미션 불가능 같은 일정 앞에서, FM 팀은 고민했다. 일반적인 프로젝트라면 최소 2~3개월이 필요한 작업이었다. 하지만 이들은 다르게 생각했다. "안 되는 이유를 찾기보다, 되게 하는 방법을 찾자."
               </p>
 
               <p>
-                이 한 문장의 다짐으로 시작된 11일간의 여정은, 단순한 프로젝트 완성을 넘어 '팀워크가 뭔지'를 다시 정의하는 경험이 되었다.
+                이 한 문장의 다짐으로 시작된 12일간의 여정은, 단순한 프로젝트 완성을 넘어 '팀워크가 뭔지'를 다시 정의하는 경험이 되었다.
               </p>
 
               <p className="text-lg font-semibold text-gray-900">
@@ -64,7 +64,7 @@ export default function OurJourneyPage() {
                   0일차: 위기 앞에서의 결정 — 교수님들의 첫 약속
                 </h2>
                 <p className="mb-4">
-                  프로젝트 시작 전날 밤, FM 팀 리더는 팀원들을 모았다. 미션은 명확했다. 11일 내에:
+                  프로젝트 시작 전날 밤, FM 팀 리더는 팀원들을 모았다. 미션은 명확했다. 12일 내에:
                 </p>
                 <ol className="space-y-2 mb-6 list-decimal pl-6">
                   <li><strong>아이템 선정</strong> (결정 못 한 상태)</li>
@@ -321,7 +321,7 @@ export default function OurJourneyPage() {
 
               <section>
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-                  11일차: 완성, 그리고 감사
+                  12일차: 완성, 그리고 감사
                 </h2>
                 <p className="mb-4">
                   마지막 날, FM 팀은 시연 영상을 촬영했다.
@@ -348,7 +348,7 @@ export default function OurJourneyPage() {
                   그것이 마지막이 아니었다. 프로젝트가 완성된 후, <strong>두 교수님은 이후의 프로젝트 팀들에게도 우리의 프로젝트를 소개해주었다.</strong>
                 </p>
                 <p className="mb-4 italic text-gray-600">
-                  "이 학생들이 11일 만에 이걸 했어. 기술도 좋지만, 여기서 배워야 할 건 포기하지 않는 것의 가치야. 그리고 팀이 뭔지. 그리고 교수도 함께한다는 뜻이야."
+                  "이 학생들이 12일 만에 이걸 했어. 기술도 좋지만, 여기서 배워야 할 건 포기하지 않는 것의 가치야. 그리고 팀이 뭔지. 그리고 교수도 함께한다는 뜻이야."
                 </p>
               </section>
 
@@ -422,7 +422,7 @@ export default function OurJourneyPage() {
                   새벽 4시에 와주신 장용선 교수님의 헌신.
                 </p>
                 <p className="mb-4 font-semibold">
-                  그것들이 합쳐져서 11일이 완성되었다.
+                  그것들이 합쳐져서 12일이 완성되었다.
                 </p>
                 <p className="mb-4 italic text-gray-600 text-lg">
                   이것이 <strong>진정한 교육의 모습</strong>이 아닐까?
@@ -460,7 +460,7 @@ export default function OurJourneyPage() {
                   그리고 그 모든 순간 뒤에 있던, <strong>두 교수님의 침묵 속의 응원.</strong>
                 </p>
                 <p className="mb-4 font-semibold text-lg">
-                  그것이 FM 팀의 11일이었다.
+                  그것이 FM 팀의 12일이었다.
                 </p>
                 <p className="mb-4 italic text-gray-600 text-lg">
                   그것이 진짜 팀워크고, 진짜 교육이고, 진짜 멘토링이다.
@@ -477,7 +477,7 @@ export default function OurJourneyPage() {
                   프로젝트가 끝난 지 며칠 후, FM 팀은 달라져 있었다.
                 </p>
                 <p className="mb-4">
-                  기술력은 말할 것도 없고, <strong>팀으로서의 신뢰도가 달라졌다.</strong> 이제 이들이 "11일 안에 이것을 해야 한다"는 미션을 받아도, 아마 웃으면서 시작할 것이다. 왜냐하면, 이미 증명했으니까.
+                  기술력은 말할 것도 없고, <strong>팀으로서의 신뢰도가 달라졌다.</strong> 이제 이들이 "12일 안에 이것을 해야 한다"는 미션을 받아도, 아마 웃으면서 시작할 것이다. 왜냐하면, 이미 증명했으니까.
                 </p>
                 <p className="mb-4">
                   그리고 더 중요한 것은, 이들이 <strong>"교수님들처럼 누군가를 도와줄 차례가 올 때"</strong>, 분명히 같은 마음으로 문을 열 것이라는 점이다. 이게 교육이 세대를 이어가는 방식이다.

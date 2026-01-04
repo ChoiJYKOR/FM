@@ -6,11 +6,21 @@ import { vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { chapters } from "./chapters";
-import { isImageObject, isCodeBlock, getImageUrl, getImageUrls, getImageSections } from "./utils";
+import {
+  isImageObject, isCodeBlock, getImageUrl, getImageUrls,
+  getImageSections,
+  optimizeImageUrl,
+  getVisualItems,
+} from "./utils";
 import { laserPointerCursor } from "./constants";
 
 export default function WhatWeDoPage() {
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
   // 뷰 모드 상태 관리 (각 탭별로 독립적으로 관리)
@@ -49,7 +59,7 @@ export default function WhatWeDoPage() {
   const handleToggleViewMode = (tabIndex: number) => {
     const currentMode = getViewMode(tabIndex);
     const newMode = currentMode === 'scroll' ? 'slide' : 'scroll';
-    
+
     setViewModes((prev) => ({
       ...prev,
       [tabIndex]: newMode,
@@ -74,10 +84,10 @@ export default function WhatWeDoPage() {
         ...prev,
         [tabIndex]: newBlockIndex,
       }));
-      
+
       // 새 블록으로 이동할 때 이미지 인덱스 초기화
       setCurrentImageIndex(tabIndex, newBlockIndex, 0);
-      
+
       // 슬라이드 블록 컨테이너로 스크롤 (내용 상단이 보이도록)
       setTimeout(() => {
         const slideContainer = document.getElementById(`slide-container-${tabIndex}`);
@@ -104,10 +114,10 @@ export default function WhatWeDoPage() {
         ...prev,
         [tabIndex]: newBlockIndex,
       }));
-      
+
       // 새 블록으로 이동할 때 이미지 인덱스 초기화
       setCurrentImageIndex(tabIndex, newBlockIndex, 0);
-      
+
       // 슬라이드 블록 컨테이너로 스크롤 (내용 상단이 보이도록)
       setTimeout(() => {
         const slideContainer = document.getElementById(`slide-container-${tabIndex}`);
@@ -192,11 +202,10 @@ export default function WhatWeDoPage() {
                   <button
                     key={chapter.id}
                     onClick={() => setActiveTab(index)}
-                    className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-200 border-b-2 ${
-                      activeTab === index
-                        ? "text-primary border-primary"
-                        : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
-                    }`}
+                    className={`px-4 md:px-6 py-3 md:py-4 text-sm md:text-base font-semibold whitespace-nowrap transition-all duration-200 border-b-2 ${activeTab === index
+                      ? "text-primary border-primary"
+                      : "text-gray-600 border-transparent hover:text-gray-900 hover:border-gray-300"
+                      }`}
                   >
                     {chapter.title}
                   </button>
@@ -207,19 +216,22 @@ export default function WhatWeDoPage() {
 
           {/* Content */}
           <div className="mt-8 min-h-[400px]">
-            {chapters.map((chapter, index) => {
+            {!mounted ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+              </div>
+            ) : chapters.map((chapter, index) => {
               const viewMode = getViewMode(index);
               const currentBlockIndex = getCurrentBlockIndex(index);
               const totalBlocks = chapter.images?.length || 0;
-              
+
               return (
                 <div
                   key={chapter.id}
-                  className={`transition-all duration-500 ease-in-out ${
-                    activeTab === index
-                      ? "opacity-100 block animate-fadeIn"
-                      : "opacity-0 hidden"
-                  }`}
+                  className={`transition-all duration-500 ease-in-out ${activeTab === index
+                    ? "opacity-100 block animate-fadeIn"
+                    : "opacity-0 hidden"
+                    }`}
                 >
                   <div className="space-y-12">
                     {/* Title and Description */}
@@ -275,109 +287,109 @@ export default function WhatWeDoPage() {
                                   key={imgIndex}
                                   className={`flex flex-col ${imageSections && hasImage ? "lg:flex-row" : ""} gap-8 lg:gap-12`}
                                 >
-                            {/* Image or Code - Left Side */}
-                            {hasImage && (
-                              <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
-                                {isCode ? (
-                                  // Code Block
-                                  <div className="rounded-lg overflow-hidden">
-                                    <SyntaxHighlighter
-                                      language={image.language}
-                                      style={vscDarkPlus}
-                                      customStyle={{
-                                        margin: 0,
-                                        borderRadius: '0.5rem',
-                                        fontSize: '0.75rem',
-                                        lineHeight: '1.5',
-                                        padding: '1rem',
-                                        maxHeight: '900px',
-                                        overflowY: 'auto',
-                                      }}
-                                      showLineNumbers={true}
-                                      wrapLines={true}
-                                      wrapLongLines={true}
-                                      codeTagProps={{
-                                        style: {
-                                          fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
-                                        }
-                                      }}
-                                    >
-                                      {image.code}
-                                    </SyntaxHighlighter>
-                                  </div>
-                                ) : (
-                                  // Image
-                                  <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity">
-                                    {failedImages.has(imageUrl) ? (
-                                      <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
-                                        이미지 준비중
-                                      </div>
-                                    ) : (
-                                      <img
-                                        src={imageUrl}
-                                        alt={`${chapter.title} - 이미지 ${imgIndex + 1}`}
-                                        className="w-full h-auto object-contain"
-                                        onClick={() => setSelectedImage(imageUrl)}
-                                        onError={() => {
-                                          setFailedImages((prev) => new Set(prev).add(imageUrl));
-                                        }}
-                                      />
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-
-                            {/* Sections - Right Side */}
-                            {imageSections && imageSections.length > 0 && (
-                              <div className={`w-full ${hasImage ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
-                                {imageSections.map((section, sectionIdx) => (
-                                  <div key={sectionIdx}>
-                                    {section.title && (
-                                      <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-                                        {section.title}
-                                      </h3>
-                                    )}
-                                    <ul className="space-y-3">
-                                      {(Array.isArray(section.description)
-                                        ? section.description
-                                        : section.description.split("\n")
-                                      ).map((line, lineIdx) => (
-                                        <li
-                                          key={lineIdx}
-                                          className="flex items-start text-gray-700"
-                                        >
-                                          <svg
-                                            className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
+                                  {/* Image or Code - Left Side */}
+                                  {hasImage && (
+                                    <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
+                                      {isCode ? (
+                                        // Code Block
+                                        <div className="rounded-lg overflow-hidden">
+                                          <SyntaxHighlighter
+                                            language={image.language}
+                                            style={vscDarkPlus}
+                                            customStyle={{
+                                              margin: 0,
+                                              borderRadius: '0.5rem',
+                                              fontSize: '0.75rem',
+                                              lineHeight: '1.5',
+                                              padding: '1rem',
+                                              maxHeight: '900px',
+                                              overflowY: 'auto',
+                                            }}
+                                            showLineNumbers={true}
+                                            wrapLines={true}
+                                            wrapLongLines={true}
+                                            codeTagProps={{
+                                              style: {
+                                                fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace',
+                                              }
+                                            }}
                                           >
-                                            <path
-                                              strokeLinecap="round"
-                                              strokeLinejoin="round"
-                                              strokeWidth={2}
-                                              d="M5 13l4 4L19 7"
+                                            {image.code}
+                                          </SyntaxHighlighter>
+                                        </div>
+                                      ) : (
+                                        // Image
+                                        <div className="rounded-lg overflow-hidden bg-gray-200 cursor-pointer hover:opacity-90 transition-opacity">
+                                          {failedImages.has(imageUrl) ? (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
+                                              이미지 준비중
+                                            </div>
+                                          ) : (
+                                            <img
+                                              src={imageUrl}
+                                              alt={`${chapter.title} - 이미지 ${imgIndex + 1}`}
+                                              className="w-full h-auto object-contain"
+                                              onClick={() => setSelectedImage(imageUrl)}
+                                              onError={() => {
+                                                setFailedImages((prev) => new Set(prev).add(imageUrl));
+                                              }}
                                             />
-                                          </svg>
-                                          <span className="text-base md:text-lg">
-                                            {line}
-                                          </span>
-                                        </li>
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+
+                                  {/* Sections - Right Side */}
+                                  {imageSections && imageSections.length > 0 && (
+                                    <div className={`w-full ${hasImage ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
+                                      {imageSections.map((section, sectionIdx) => (
+                                        <div key={sectionIdx}>
+                                          {section.title && (
+                                            <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+                                              {section.title}
+                                            </h3>
+                                          )}
+                                          <ul className="space-y-3">
+                                            {(Array.isArray(section.description)
+                                              ? section.description
+                                              : section.description.split("\n")
+                                            ).map((line, lineIdx) => (
+                                              <li
+                                                key={lineIdx}
+                                                className="flex items-start text-gray-700"
+                                              >
+                                                <svg
+                                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                                  fill="none"
+                                                  stroke="currentColor"
+                                                  viewBox="0 0 24 24"
+                                                >
+                                                  <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M5 13l4 4L19 7"
+                                                  />
+                                                </svg>
+                                                <span className="text-base md:text-lg">
+                                                  {line}
+                                                </span>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        </div>
                                       ))}
-                                    </ul>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        );
-                      })}
+                                    </div>
+                                  )}
+                                </div>
+                              );
+                            })}
                           </div>
                         ) : (
                           /* 슬라이드 모드: 하나의 블록만 표시 */
-                          <div 
-                            id={`slide-container-${index}`} 
+                          <div
+                            id={`slide-container-${index}`}
                             className="relative"
                             style={{
                               cursor: laserPointerCursor
@@ -387,22 +399,29 @@ export default function WhatWeDoPage() {
                             {(() => {
                               const currentImage = chapter.images[currentBlockIndex];
                               if (!currentImage) return null;
-                              
+
                               const imageSections = getImageSections(currentImage);
-                              const isCode = isCodeBlock(currentImage);
-                              const imageUrls = !isCode ? getImageUrls(currentImage) : [];
-                              const hasImage = isCode || (imageUrls.length > 0 && typeof imageUrls[0] === 'string' && imageUrls[0].trim() !== '');
-                              
+                              const visualItems = getVisualItems(currentImage);
+
+                              // 현재 선택된 아이템 (이미지 또는 코드)
+                              const currentItemIdx = getCurrentImageIndex(index, currentBlockIndex);
+                              // 인덱스 범위 체크 및 보정
+                              const safeItemIdx = Math.min(Math.max(0, currentItemIdx), Math.max(0, visualItems.length - 1));
+                              const currentItem = visualItems[safeItemIdx];
+
+                              const hasMultipleItems = visualItems.length > 1;
+                              const hasContent = visualItems.length > 0;
+
                               return (
-                                <div className={`flex flex-col ${imageSections && hasImage ? "lg:flex-row" : ""} gap-8 lg:gap-12`}>
+                                <div className={`flex flex-col ${imageSections && hasContent ? "lg:flex-row" : ""} gap-8 lg:gap-12`}>
                                   {/* Image or Code - Left Side */}
-                                  {hasImage && (
-                                    <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0`}>
-                                      {isCode ? (
+                                  {hasContent && currentItem && (
+                                    <div className={`w-full ${imageSections ? "lg:w-1/2" : ""} flex-shrink-0 relative`}>
+                                      {currentItem.type === 'code' ? (
                                         // Code Block
-                                        <div className="rounded-lg overflow-hidden">
+                                        <div className="rounded-lg overflow-hidden relative">
                                           <SyntaxHighlighter
-                                            language={currentImage.language}
+                                            language={currentItem.language}
                                             style={vscDarkPlus}
                                             customStyle={{
                                               margin: 0,
@@ -422,91 +441,81 @@ export default function WhatWeDoPage() {
                                               }
                                             }}
                                           >
-                                            {currentImage.code}
+                                            {currentItem.code}
                                           </SyntaxHighlighter>
                                         </div>
                                       ) : (
                                         // Image
-                                        (() => {
-                                          const currentImgIndex = getCurrentImageIndex(index, currentBlockIndex);
-                                          const hasMultipleImages = imageUrls.length > 1;
-                                          const currentImageUrl = imageUrls[currentImgIndex] || imageUrls[0] || '';
-                                          
-                                          return (
-                                            <div 
-                                              className="rounded-lg overflow-hidden bg-gray-200 relative"
-                                              style={{ cursor: laserPointerCursor }}
-                                            >
-                                              {failedImages.has(currentImageUrl) ? (
-                                                <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
-                                                  이미지 준비중
-                                                </div>
-                                              ) : (
-                                                <>
-                                                  <img
-                                                    src={currentImageUrl}
-                                                    alt={`${chapter.title} - 이미지 ${currentBlockIndex + 1}-${currentImgIndex + 1}`}
-                                                    className="w-full h-auto object-contain transition-opacity duration-300"
-                                                    onClick={() => setSelectedImage(currentImageUrl)}
-                                                    onError={() => {
-                                                      setFailedImages((prev) => new Set(prev).add(currentImageUrl));
-                                                    }}
-                                                    style={{ cursor: laserPointerCursor }}
-                                                  />
-                                                  
-                                                  {/* 다중 이미지인 경우 좌우 버튼 및 인덱스 표시 */}
-                                                  {hasMultipleImages && (
-                                                    <>
-                                                      {/* 좌측 버튼 */}
-                                                      {currentImgIndex > 0 && (
-                                                        <button
-                                                          onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setCurrentImageIndex(index, currentBlockIndex, currentImgIndex - 1);
-                                                          }}
-                                                          className="absolute left-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
-                                                          aria-label="이전 이미지"
-                                                        >
-                                                          <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                                                          </svg>
-                                                        </button>
-                                                      )}
-                                                      
-                                                      {/* 우측 버튼 */}
-                                                      {currentImgIndex < imageUrls.length - 1 && (
-                                                        <button
-                                                          onClick={(e) => {
-                                                            e.stopPropagation();
-                                                            setCurrentImageIndex(index, currentBlockIndex, currentImgIndex + 1);
-                                                          }}
-                                                          className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-16 md:w-20 flex items-center justify-center transition-opacity duration-200 z-10 hover:opacity-80"
-                                                          aria-label="다음 이미지"
-                                                        >
-                                                          <svg className="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                                          </svg>
-                                                        </button>
-                                                      )}
-                                                      
-                                                      {/* 이미지 인덱스 표시 */}
-                                                      <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1.5 rounded-md text-sm font-medium z-10">
-                                                        {currentImgIndex + 1} / {imageUrls.length}
-                                                      </div>
-                                                    </>
-                                                  )}
-                                                </>
-                                              )}
+                                        <div
+                                          className="rounded-lg overflow-hidden bg-gray-200 relative"
+                                          style={{ cursor: laserPointerCursor }}
+                                        >
+                                          {failedImages.has(currentItem.url) ? (
+                                            <div className="w-full h-full flex items-center justify-center text-gray-400 text-sm py-8">
+                                              이미지 준비중
                                             </div>
-                                          );
-                                        })()
+                                          ) : (
+                                            <img
+                                              src={currentItem.url}
+                                              alt={`${chapter.title} - 아이템 ${currentBlockIndex + 1}-${safeItemIdx + 1}`}
+                                              className="w-full h-auto object-contain transition-opacity duration-300"
+                                              onClick={() => setSelectedImage(currentItem.url)}
+                                              onError={() => {
+                                                setFailedImages((prev) => new Set(prev).add(currentItem.url));
+                                              }}
+                                              style={{ cursor: laserPointerCursor }}
+                                            />
+                                          )}
+                                        </div>
+                                      )}
+
+                                      {/* 네비게이션 버튼 (다중 아이템인 경우) */}
+                                      {hasMultipleItems && (
+                                        <>
+                                          {/* 좌측 버튼 */}
+                                          {safeItemIdx > 0 && (
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                setCurrentImageIndex(index, currentBlockIndex, safeItemIdx - 1);
+                                              }}
+                                              className="absolute left-0 top-1/2 -translate-y-1/2 h-full w-12 md:w-16 flex items-center justify-center transition-all duration-200 z-10 hover:bg-black/10 group rounded-l-lg"
+                                              aria-label="이전 아이템"
+                                            >
+                                              <svg className="w-8 h-8 text-white drop-shadow-lg group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                              </svg>
+                                            </button>
+                                          )}
+
+                                          {/* 우측 버튼 */}
+                                          {safeItemIdx < visualItems.length - 1 && (
+                                            <button
+                                              onClick={(e) => {
+                                                e.stopPropagation();
+                                                setCurrentImageIndex(index, currentBlockIndex, safeItemIdx + 1);
+                                              }}
+                                              className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-12 md:w-16 flex items-center justify-center transition-all duration-200 z-10 hover:bg-black/10 group rounded-r-lg"
+                                              aria-label="다음 아이템"
+                                            >
+                                              <svg className="w-8 h-8 text-white drop-shadow-lg group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                              </svg>
+                                            </button>
+                                          )}
+
+                                          {/* 인덱스 표시 */}
+                                          <div className="absolute bottom-4 right-4 bg-black bg-opacity-60 text-white px-3 py-1.5 rounded-full text-xs font-medium z-10 backdrop-blur-sm">
+                                            {safeItemIdx + 1} / {visualItems.length}
+                                          </div>
+                                        </>
                                       )}
                                     </div>
                                   )}
 
                                   {/* Sections - Right Side */}
                                   {imageSections && imageSections.length > 0 && (
-                                    <div className={`w-full ${hasImage ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
+                                    <div className={`w-full ${hasContent ? "lg:w-1/2" : ""} flex-shrink-0 space-y-8`}>
                                       {imageSections.map((section, sectionIdx) => (
                                         <div key={sectionIdx}>
                                           {section.title && (
@@ -556,11 +565,10 @@ export default function WhatWeDoPage() {
                               <button
                                 onClick={() => handlePrevBlock(index)}
                                 disabled={currentBlockIndex === 0}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                                  currentBlockIndex === 0
-                                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                    : "bg-primary text-white hover:bg-primary-dark"
-                                }`}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${currentBlockIndex === 0
+                                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                  : "bg-primary text-white hover:bg-primary-dark"
+                                  }`}
                                 aria-label="이전 블록"
                               >
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -578,11 +586,10 @@ export default function WhatWeDoPage() {
                               <button
                                 onClick={() => handleNextBlock(index, totalBlocks)}
                                 disabled={currentBlockIndex >= totalBlocks - 1}
-                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                                  currentBlockIndex >= totalBlocks - 1
-                                    ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                    : "bg-primary text-white hover:bg-primary-dark"
-                                }`}
+                                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${currentBlockIndex >= totalBlocks - 1
+                                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                  : "bg-primary text-white hover:bg-primary-dark"
+                                  }`}
                                 aria-label="다음 블록"
                               >
                                 <span className="hidden sm:inline">다음</span>
@@ -596,188 +603,43 @@ export default function WhatWeDoPage() {
                       </div>
                     )}
 
-                  {/* General Content */}
-                  <div>
+                    {/* General Content */}
+                    <div>
 
-                    {/* Specifications */}
-                    {'specifications' in chapter && (chapter as any).specifications && (
-                      <div className="mb-6">
-                        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-                          사양/제원
-                        </h3>
-                        {Array.isArray((chapter as any).specifications) ? (
-                          <ul className="space-y-3">
-                            {(chapter as any).specifications.map((spec: string, idx: number) => (
-                              <li
-                                key={idx}
-                                className="flex items-start text-gray-700"
-                              >
-                                <svg
-                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
+                      {/* Specifications */}
+                      {'specifications' in chapter && (chapter as any).specifications && (
+                        <div className="mb-6">
+                          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+                            사양/제원
+                          </h3>
+                          {Array.isArray((chapter as any).specifications) ? (
+                            <ul className="space-y-3">
+                              {(chapter as any).specifications.map((spec: string, idx: number) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start text-gray-700"
                                 >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                                <span className="text-base md:text-lg">
-                                  {spec}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <div className="flex items-start text-gray-700">
-                            <svg
-                              className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                            <p className="text-base md:text-lg">
-                              {(chapter as any).specifications}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Technical Details */}
-                    {'technicalDetails' in chapter && (chapter as any).technicalDetails && (
-                      <div className="mb-6">
-                        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-                          기술 상세 설명
-                        </h3>
-                        {Array.isArray((chapter as any).technicalDetails) ? (
-                          <ul className="space-y-3">
-                            {(chapter as any).technicalDetails.map((detail: string, idx: number) => (
-                              <li
-                                key={idx}
-                                className="flex items-start text-gray-700"
-                              >
-                                <svg
-                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                                <span className="text-base md:text-lg">
-                                  {detail}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <div className="text-base md:text-lg text-gray-700 leading-relaxed whitespace-pre-line">
-                            {String((chapter as any).technicalDetails).split('\n').map((line: string, idx: number) => (
-                              <div key={idx} className="flex items-start mb-2">
-                                <svg
-                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                                <span>{line}</span>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Results */}
-                    {'results' in chapter && (chapter as any).results && (
-                      <div className="mb-6">
-                        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-                          결과/성과
-                        </h3>
-                        {Array.isArray((chapter as any).results) ? (
-                          <ul className="space-y-3">
-                            {(chapter as any).results.map((result: string, idx: number) => (
-                              <li
-                                key={idx}
-                                className="flex items-start text-gray-700"
-                              >
-                                <svg
-                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M5 13l4 4L19 7"
-                                  />
-                                </svg>
-                                <span className="text-base md:text-lg">
-                                  {result}
-                                </span>
-                              </li>
-                            ))}
-                          </ul>
-                        ) : (
-                          <div className="flex items-start text-gray-700">
-                            <svg
-                              className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                              />
-                            </svg>
-                            <p className="text-base md:text-lg leading-relaxed">
-                              {(chapter as any).results}
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Features */}
-                    {'features' in chapter && (chapter as any).features && (chapter as any).features.length > 0 && (
-                      <div className="mb-6">
-                        <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
-                          주요 특징
-                        </h3>
-                        <ul className="space-y-3">
-                          {(chapter as any).features.map((feature: string, idx: number) => (
-                            <li
-                              key={idx}
-                              className="flex items-start text-gray-700"
-                            >
+                                  <svg
+                                    className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                  <span className="text-base md:text-lg">
+                                    {spec}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <div className="flex items-start text-gray-700">
                               <svg
                                 className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
                                 fill="none"
@@ -791,47 +653,192 @@ export default function WhatWeDoPage() {
                                   d="M5 13l4 4L19 7"
                                 />
                               </svg>
-                              <span className="text-base md:text-lg">
-                                {feature}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                              <p className="text-base md:text-lg">
+                                {(chapter as any).specifications}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      )}
 
-                    {/* Reference */}
-                    {chapter.reference && (
-                      <div className="mt-8 pt-6 border-t border-gray-200">
-                        <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
-                          참고
-                        </h3>
-                        <a
-                          href={chapter.reference}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-primary hover:text-primary-dark inline-flex items-center font-medium transition-colors break-all"
-                        >
-                          <span className="mr-2">{chapter.reference}</span>
-                          <svg
-                            className="w-4 h-4 flex-shrink-0"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                      {/* Technical Details */}
+                      {'technicalDetails' in chapter && (chapter as any).technicalDetails && (
+                        <div className="mb-6">
+                          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+                            기술 상세 설명
+                          </h3>
+                          {Array.isArray((chapter as any).technicalDetails) ? (
+                            <ul className="space-y-3">
+                              {(chapter as any).technicalDetails.map((detail: string, idx: number) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start text-gray-700"
+                                >
+                                  <svg
+                                    className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                  <span className="text-base md:text-lg">
+                                    {detail}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <div className="text-base md:text-lg text-gray-700 leading-relaxed whitespace-pre-line">
+                              {String((chapter as any).technicalDetails).split('\n').map((line: string, idx: number) => (
+                                <div key={idx} className="flex items-start mb-2">
+                                  <svg
+                                    className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                  <span>{line}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Results */}
+                      {'results' in chapter && (chapter as any).results && (
+                        <div className="mb-6">
+                          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+                            결과/성과
+                          </h3>
+                          {Array.isArray((chapter as any).results) ? (
+                            <ul className="space-y-3">
+                              {(chapter as any).results.map((result: string, idx: number) => (
+                                <li
+                                  key={idx}
+                                  className="flex items-start text-gray-700"
+                                >
+                                  <svg
+                                    className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                  <span className="text-base md:text-lg">
+                                    {result}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <div className="flex items-start text-gray-700">
+                              <svg
+                                className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M5 13l4 4L19 7"
+                                />
+                              </svg>
+                              <p className="text-base md:text-lg leading-relaxed">
+                                {(chapter as any).results}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Features */}
+                      {'features' in chapter && (chapter as any).features && (chapter as any).features.length > 0 && (
+                        <div className="mb-6">
+                          <h3 className="text-xl md:text-2xl font-semibold text-gray-900 mb-4">
+                            주요 특징
+                          </h3>
+                          <ul className="space-y-3">
+                            {(chapter as any).features.map((feature: string, idx: number) => (
+                              <li
+                                key={idx}
+                                className="flex items-start text-gray-700"
+                              >
+                                <svg
+                                  className="w-5 h-5 text-primary mr-3 mt-0.5 flex-shrink-0"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M5 13l4 4L19 7"
+                                  />
+                                </svg>
+                                <span className="text-base md:text-lg">
+                                  {feature}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+
+                      {/* Reference */}
+                      {chapter.reference && (
+                        <div className="mt-8 pt-6 border-t border-gray-200">
+                          <h3 className="text-lg md:text-xl font-semibold text-gray-900 mb-3">
+                            참고
+                          </h3>
+                          <a
+                            href={chapter.reference}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-primary hover:text-primary-dark inline-flex items-center font-medium transition-colors break-all"
                           >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                            />
-                          </svg>
-                        </a>
-                      </div>
-                    )}
+                            <span className="mr-2">{chapter.reference}</span>
+                            <svg
+                              className="w-4 h-4 flex-shrink-0"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                              />
+                            </svg>
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
               )
             })}
           </div>

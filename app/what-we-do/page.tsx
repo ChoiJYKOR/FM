@@ -337,6 +337,7 @@ export default function WhatWeDoPage() {
                                               onError={() => {
                                                 setFailedImages((prev) => new Set(prev).add(imageUrl));
                                               }}
+                                              unoptimized
                                             />
                                           )}
                                         </div>
@@ -470,6 +471,7 @@ export default function WhatWeDoPage() {
                                               onError={() => {
                                                 setFailedImages((prev) => new Set(prev).add(currentItem.url));
                                               }}
+                                              unoptimized
                                             />
                                           )}
                                         </div>
@@ -889,6 +891,7 @@ export default function WhatWeDoPage() {
                   className="object-contain"
                   onClick={() => setSelectedImage(null)}
                   style={isSlideMode ? { cursor: laserPointerCursor } : { cursor: 'pointer' }}
+                  unoptimized
                 />
               </div>
             </div>

@@ -863,7 +863,7 @@ export default function WhatWeDoPage() {
             onClick={() => setSelectedImage(null)}
             style={isSlideMode ? { cursor: laserPointerCursor } : {}}
           >
-            <div className="relative max-w-7xl max-h-full">
+            <div className="relative w-full max-w-7xl max-h-full">
               <button
                 onClick={() => setSelectedImage(null)}
                 className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10 bg-black bg-opacity-50 rounded-full p-2"

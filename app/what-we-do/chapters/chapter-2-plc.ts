@@ -114,6 +114,24 @@ with plc_lock:
       ],
     },
     {
+      urls: [
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767099166/20251223_170108_svoxpi.jpg",
+        "https://res.cloudinary.com/dcjij84tc/image/upload/v1767517647/20251223_170000_wohwrk.jpg",
+      ],
+
+      sections: [
+        {
+          title: "HMI2, HMI3",
+          description: [
+            "HMI2: 로봇 상태 모니터링",
+            "HMI2: 비상 정지",
+            "HMI3: 공정 상태 모니터링",
+
+          ],
+        },
+      ],
+    },
+    {
       url: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767501077/PLC_img_stpy6o.jpg",
 
       sections: [

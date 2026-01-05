@@ -36,7 +36,7 @@ const teamMembers = [
   },
   {
     id: 5,
-    name: "지동원",
+    name: "지동현",
     role: "PLC/로봇팀",
     description: "PLC프로그램 제작\nHMI2 제작\n케이스 결착 로봇 구현",
     image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767126524/grok_1767091040948_fmvmih.jpg",

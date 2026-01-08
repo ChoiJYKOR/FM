@@ -25,7 +25,7 @@ const teamMembers = [
     name: "김태연",
     role: "PLC/로봇팀",
     description: "PLC 로직 작성\n서보 제어\nHMI3 제작\n파이썬 통합 코드 설계",
-    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767545627/Screenshot_2026-01-05_015303_ytdi5j.png",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767876831/%EA%B9%80%ED%83%9C%EC%97%B0_darnjf.png",
   },
   {
     id: 4,

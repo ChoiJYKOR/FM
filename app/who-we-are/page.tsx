@@ -29,10 +29,10 @@ const teamMembers = [
   },
   {
     id: 4,
-    name: "정종철",
+    name: "이종철",
     role: "PLC/로봇팀",
     description: "PLC프로그램 제작\n팔레타이징 로봇 구현",
-    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1767545627/Screenshot_2026-01-05_015303_ytdi5j.png",
+    image: "https://res.cloudinary.com/dcjij84tc/image/upload/v1768176536/%EC%8A%A4%EC%BC%80%EC%B9%98_fphq7y.jpg",
   },
   {
     id: 5,
